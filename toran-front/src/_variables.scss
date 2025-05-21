@@ -1,0 +1,89 @@
+//--------------------------------------------------------
+//                     GLOBAL                              
+//---------------------------------------------------------
+$background-image: linear-gradient(to bottom right, #0f172a, #1e3a8a);
+$background-size: cover;
+$background-position: center;
+$background-width: 100%;
+$background-height: 100vh;
+
+
+
+//--------------------------------------------------------
+//                     LOGIN & SIGNUP                              
+//---------------------------------------------------------
+
+$login-button-color: #3498db;
+$signup-button-color: #2ecc71;
+$card-bg: rgba(255, 255, 255, 0.9);
+$login-box-height: 450px;
+$login-box-width: 450px;
+
+@mixin auth-box() {
+    position: fixed;
+    background-color: $card-bg;
+    padding: 3rem;
+    border-radius: 0.5rem;
+
+    h2 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    input {
+        display: flex;
+        margin-bottom: 1rem;
+        width: 80%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+}
+
+//--------------------------------------------------------
+//                     WELCOME                              
+//---------------------------------------------------------
+
+$button-bg-color-linear-gradient: #1f2937;
+$question-icon-postion: fixed;
+
+@mixin button-with-icon($icon_url) {
+    margin: 0 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+    color: aliceblue;
+    background: $button-bg-color-linear-gradient;
+    font: normal bold 1.625rem georgia;
+    text-decoration: none;
+
+    &::before {
+        content: '';
+        display: inline-block;
+        background-image: url($icon_url);
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-right: 1rem;
+    }
+
+    &:hover {
+        opacity: 0.85;
+    }
+}
+
+
+//--------------------------------------------------------
+//                     HOMEPAGE                              
+//---------------------------------------------------------
+
+$form_position: fixed;
