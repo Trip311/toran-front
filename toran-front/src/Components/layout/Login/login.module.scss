@@ -1,0 +1,25 @@
+.container {
+    background-image: vars.$background-image;
+    background-size: vars.$background-size;
+    background-position: vars.$background-position;
+    width: vars.$background-width;
+    height: vars.$background-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loginBox {
+
+        @include vars.auth-box();
+
+        button {
+            width: 20rem;
+            margin: 0.5rem;
+            padding: 0.5rem;
+            background-color: vars.$login-button-color;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}

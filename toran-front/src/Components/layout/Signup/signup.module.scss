@@ -1,0 +1,46 @@
+
+.container {
+    background-image: vars.$background-image;
+    background-size: vars.$background-size;
+    background-position: vars.$background-position;
+    width: vars.$background-width;
+    height: vars.$background-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .signupBox {
+
+        @include vars.auth-box();
+
+        fieldset {
+            display: flex;
+            gap: 20px;
+            background-color: white;
+            border: none;
+
+            label {
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                cursor: pointer;
+
+            }
+
+            input[type="radio"] {
+                margin: 0;
+            }
+
+        }
+
+        button {
+            width: 20rem;
+            margin: 1rem;
+            padding: 0.6rem;
+            background-color: vars.$signup-button-color;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}

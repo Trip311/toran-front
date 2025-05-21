@@ -1,0 +1,8 @@
+
+.container {
+    background: vars.$background-image;
+    background-position: vars.$background-position;
+    width: vars.$background-width;
+    height: vars.$background-height;
+    display: flex;
+}
