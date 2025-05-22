@@ -3,7 +3,7 @@
 @use '../../../../../variables' as vars;
 
 .modal-overlay {
-    position: vars.$form_postion;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
