@@ -21,7 +21,7 @@ const Signup: React.FC = () => {
             return;
         }
         try {
-            const res = await axios.post('http:localhost:5000/api/auth/signup', {
+            const res = await axios.post('http://localhost:5000/api/auth/signup', {
                 username,
                 password,
                 dateOfBirth,
