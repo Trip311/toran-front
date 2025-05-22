@@ -1,4 +1,7 @@
 
+
+@use '../../../variables' as vars;
+
 .container {
     background-image: vars.$background-image;
     background-size: vars.$background-size;

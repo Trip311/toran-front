@@ -28,7 +28,7 @@ const Welcome: React.FC = () => {
             <h1 className={styles.title}>Toran</h1>
             <div className={styles.toggleButtons}>
                 <button datatype='btn-login' onClick={() => navigate('/login')}>Login</button>
-                <button datatype='btn-signup' onClick={() => navigate('/signup')}>Login</button>
+                <button datatype='btn-signup' onClick={() => navigate('/signup')}>Signup</button>
             </div>
         </div>
     )

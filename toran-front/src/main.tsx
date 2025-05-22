@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from 'react'
+import  ReactDOM from 'react-dom/client'
+import AppRounter from './AppRouter'
+import { BrowserRouter } from 'react-router-dom'
+// import { Provider } from 'react-redux'
+// import { store } from './Components/layout/HomePage/Calendar/redux/eventStore'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AppRounter/>
+    </BrowserRouter>
+  </React.StrictMode>
 )

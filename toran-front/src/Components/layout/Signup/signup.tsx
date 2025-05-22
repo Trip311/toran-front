@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './signup.module.scss';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ const Signup: React.FC = () => {
     }
 
     return (
-        <div className={styles.contianer}>
+        <div className={styles.container}>
             <div className={styles.signupBox}>
                 <h2>Sign up</h2>
                 <form onSubmit={handleSignup}>
