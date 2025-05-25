@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { Calendar, momentLocalizer} from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from 'moment'; 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useAppDispatch, useAppSelector } from './redux/eventhooks';
@@ -13,6 +13,13 @@ const localizer = momentLocalizer(moment);
 const MyCalendar: React.FC = () => {
 
     const events = useAppSelector((state) => state.event.events);
+
+    // convert back from iso
+    const calendarEvents = events.map(event => ({
+        ...event,
+        startDate: new Date(event.startDate),
+        endDate: new Date(event.endDate),
+    }));
     const username = localStorage.getItem('username');
     const dispatch = useAppDispatch();
     const [modalOpen, setModalOpen] = useState(false);
@@ -47,6 +54,10 @@ const MyCalendar: React.FC = () => {
         }
     }, [dispatch])
 
+    useEffect(() => {
+        console.log("Events:", events);
+    }, [events]);
+
     const eventStyleGetter = (event: IEvent) => {
         const backgroundColor = event.type === 'jira' ? '#add8e6' : '#90EE90';
         return {
@@ -72,13 +83,13 @@ const MyCalendar: React.FC = () => {
                 }}>
                 <Calendar
                 localizer={localizer}
-                events={events}
+                events={calendarEvents}
                 startAccessor="startDate"
                 endAccessor="endDate"
                 selectable
+                defaultView="week"
                 onSelectSlot={handleSelectSlot}
                 onSelectEvent={handleSelectEvent}
-                style={{flex: 1,height: '85vh', display: 'flex', backgroundColor: "white"}}
                 eventPropGetter={eventStyleGetter}
                 components={{
                     event: ({ event }) => (
@@ -95,7 +106,7 @@ const MyCalendar: React.FC = () => {
                     <EventFormModal onClose={closeModal} slotInfo={slotInfo} event={selectedEvent}/>
 
                 )}
-                </div>
+            </div>
         </div>
     )
 }

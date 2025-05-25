@@ -6,7 +6,8 @@ import styles from './navbar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ChangePassword from './ChangePassword/ChangePassword'; // adjust the path if needed
+import ChangePassword from './ChangePassword/ChangePassword';
+import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
 
 
 
@@ -15,7 +16,9 @@ const Navbar = () => {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const storedUsername = localStorage.getItem('username');
     const [isChangePassword, setIsChangePassword] = useState(false);
+    const [showSwitchShifts, setShowSwitchShifts] = useState(false);
 
+    const usersList = ['user1', 'user2'];
 
     const [username, setUsername] = useState('guest');
 
@@ -35,6 +38,14 @@ const Navbar = () => {
 
     const toggleChangePasswordScreen = () => {
         setIsChangePassword(prev => !prev);
+    }
+
+    const toggleSwitchShifts = () => {
+        if (storedUsername) {  // Only allow if user logged in
+            setShowSwitchShifts(prev => !prev);
+        } else {
+            alert('Please login to switch shifts');
+        }
     }
 
     
@@ -63,10 +74,18 @@ const Navbar = () => {
                     </div>
                 )}
 
-                <div className={styles.navitem}>
+                <div className={styles.navitem} onClick={toggleSwitchShifts}>
                     <FiRepeat size={20}/>
                     <span>switch shifts</span>
                 </div>
+
+                {showSwitchShifts && storedUsername && storedUsername !== 'guest' && (
+                    <ShiftSwitcher
+                        currentUser={storedUsername}
+                        users={usersList}
+                        onClose={() => setShowSwitchShifts(false)}
+                    />
+                )}
                 <div className={styles.footer}>
                     <p>Logged in as:</p>
                     <strong>{storedUsername}</strong>

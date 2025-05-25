@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useState, useEffect} from 'react';
 import { useAppDispatch } from '../redux/eventhooks';
-import { addEvent, updateEvent, deleteEvent, fetchEvents } from '../redux/eventSlice';
+import { addEvent, updateEvent, deleteEvent } from '../redux/eventSlice';
 import type { IEvent } from '../../../../../interfaces/event.interface';
 import './eventFormModal.scss';
 
@@ -23,7 +23,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
 
     const startDate = new Date(event?.startDate || slotInfo?.start);
     const endDate = new Date(event?.endDate || slotInfo?.end);
-    startDate.setHours(8, 0, 0, 0);
+    startDate.setHours(0, 0, 0, 0);
     endDate.setFullYear(startDate.getFullYear());
     endDate.setMonth(startDate.getMonth());
     endDate.setDate(startDate.getDate());
@@ -47,13 +47,16 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
             endDate: new Date(endDate)
         }
 
-        if (isEdit && event?.id) {
-            await dispatch(updateEvent({ id: event.id, event: payload}));
-        } else {
-            await dispatch(addEvent(payload));
+        try {
+            if (isEdit && event?.id) {
+                await dispatch(updateEvent({ id: event.id, event: payload })).unwrap();
+            } else {
+                await dispatch(addEvent(payload)).unwrap();
+            }
+            onClose();
+        } catch (error) {
+            alert('Failed to save event: ' + (error as Error).message);
         }
-
-        onClose();
     }
 
     const handleDelete = async () => {
@@ -62,11 +65,14 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
             return;
         }
 
-        if (event?.id) {
-            await dispatch(deleteEvent(event.id));
+        try {
+            if (event?.id) {
+                await dispatch(deleteEvent(event.id)).unwrap();
+            }
+            onClose();
+        } catch (error) {
+            alert('Failed to delete event: ' + (error as Error).message);
         }
-
-        onClose();
     }
 
 

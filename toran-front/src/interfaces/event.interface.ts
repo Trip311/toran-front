@@ -3,6 +3,6 @@ export interface IEvent {
     title: string;
     type: 'jira' | 'kitchen';
     username: string;
-    startDate: Date;
+    startDate: Date; // ISO string from backend
     endDate: Date;
 }

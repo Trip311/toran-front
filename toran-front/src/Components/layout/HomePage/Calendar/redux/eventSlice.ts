@@ -11,8 +11,8 @@ export const fetchEvents = createAsyncThunk(
         const response = await axios.get(`${API_URL}`);
         return response.data.map((event: any) => ({
             ...event,
-            startDate: new Date(event.startDate),
-            endDate: new Date(event.endDate)
+            startDate: new Date(event.startDate).toISOString(),
+            endDate: new Date(event.endDate).toISOString()
         }))
     }
 )
@@ -66,7 +66,7 @@ const eventSlice = createSlice({
             })
             .addCase(fetchEvents.fulfilled, (state, action) => {
                 state.events = action.payload;
-                state.loading = true;
+                state.loading = false;
             })
             .addCase(addEvent.fulfilled, (state, action) => {
                 state.events.push(action.payload);
@@ -78,6 +78,19 @@ const eventSlice = createSlice({
 
             .addCase(deleteEvent.fulfilled, (state,action) => {
                 state.events = state.events.filter((e) => e.id !== action.payload);
+            })
+            .addCase(fetchEvents.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to fetch events";
+            })
+            .addCase(addEvent.rejected, (state, action) => {
+                state.error = action.payload as string || "Failed to add event";
+            })
+            .addCase(updateEvent.rejected, (state, action) => {
+                state.error = action.payload as string || "Failed to update event";
+            })
+            .addCase(deleteEvent.rejected, (state, action) => {
+                state.error = action.payload as string || "Failed to delete event";
             })
     }
 })
