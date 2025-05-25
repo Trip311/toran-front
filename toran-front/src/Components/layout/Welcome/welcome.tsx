@@ -21,6 +21,7 @@ const Welcome: React.FC = () => {
                         <p>The Toran website should help us organize daily jira and kitchen shifts.</p>
                         <p>Every Signed user in the team could just go into this website and see the status for the week.</p>
                         <p>In addition, change their shifts accordingly.</p>
+                        <p className={styles['superuser-note']}><strong>Only super users can approve switching shifts.</strong></p>
                         <button className={styles.closebutton} onClick={toggleHelpScreen}>X</button>
                     </div>
                 </div>

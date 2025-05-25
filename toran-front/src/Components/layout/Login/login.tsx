@@ -2,14 +2,13 @@
 import styles from './login.module.scss';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Toast from '../Toast';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Login: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error'} | null>(null);
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -20,11 +19,11 @@ const Login: React.FC = () => {
                 password
             })
             console.log(res.data);
-            setToast({ message: 'Login successful!', type: 'success'})
+            toast.success('Login successful!');
             localStorage.setItem('username', username);
             navigate('/home');
         } catch(error: unknown) {
-            setToast({ message: 'Login fialed', type: 'error'});
+            toast.error('Login failed');
         }
     }
         return (
@@ -35,17 +34,9 @@ const Login: React.FC = () => {
                         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required/>
                         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                         <button type="submit">Login</button>
-
-                        {toast && (
-                        <Toast
-                            message={toast.message}
-                            type={toast.type}
-                            onClose={() => setToast(null)} 
-                            />
-                        )}
                     </form>
-                    
                 </div>
+                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar />
 
             </div>
         )

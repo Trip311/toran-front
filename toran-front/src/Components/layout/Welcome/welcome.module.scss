@@ -73,6 +73,12 @@
         margin-bottom: 20px;
     }
 
+    .helpcontent p.superuser-note {
+        font-weight: 600;
+        color: #b22222; // dark red for emphasis
+        margin-top: 10px;
+    }
+
     .closebutton {
         position: absolute;
         top: 10px;

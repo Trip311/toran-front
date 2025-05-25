@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useState, useEffect} from 'react';
 import { useAppDispatch } from '../redux/eventhooks';
-import { addEvent, updateEvent, deleteEvent } from '../redux/eventSlice';
+import { addEvent, updateEvent, deleteEvent, fetchEvents } from '../redux/eventSlice';
 import type { IEvent } from '../../../../../interfaces/event.interface';
 import './eventFormModal.scss';
 
@@ -21,8 +21,8 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
     const [type, setType] = useState<IEvent['type']>(event?.type || 'jira');
     const username = localStorage.getItem('username') || '';
 
-    const startDate = event?.startDate || slotInfo?.start;
-    const endDate = event?.endDate || slotInfo?.end;
+    const startDate = new Date(event?.startDate || slotInfo?.start);
+    const endDate = new Date(event?.endDate || slotInfo?.end);
     startDate.setHours(8, 0, 0, 0);
     endDate.setFullYear(startDate.getFullYear());
     endDate.setMonth(startDate.getMonth());
@@ -31,7 +31,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
 
     const isGuest = username === 'guest';
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         
         if (isGuest) {
             alert( "Guest users cannot modify events");
@@ -48,22 +48,22 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
         }
 
         if (isEdit && event?.id) {
-            dispatch(updateEvent({ id: event.id, event: payload}));
+            await dispatch(updateEvent({ id: event.id, event: payload}));
         } else {
-            dispatch(addEvent(payload));
+            await dispatch(addEvent(payload));
         }
 
         onClose();
     }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (isGuest) {
             alert("Guest users cannot delete events");
             return;
         }
 
         if (event?.id) {
-            dispatch(deleteEvent(event.id));
+            await dispatch(deleteEvent(event.id));
         }
 
         onClose();

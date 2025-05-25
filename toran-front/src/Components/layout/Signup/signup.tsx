@@ -3,21 +3,22 @@ import React, { useEffect, useState } from "react";
 import styles from './signup.module.scss';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import Toast from "../Toast";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Signup: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
-    const [toast, setToast] = useState<{ message: string;type: 'success' | 'error' } | null>(null);
     const navigate = useNavigate();
 
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault()
 
         if (password.length < 6) {
-            setToast({ message: 'Password must be at least 6 chracters long', type: 'error'})
+            toast.error('Password must be at least 6 characters long');
             return;
         }
         try {
@@ -28,12 +29,12 @@ const Signup: React.FC = () => {
                 gender
             })
             console.log(res.data);
-            setToast({ message: 'Signup successful!', type: 'error'});
+            toast.success('Signup successful!');
             setTimeout(() => {
                 navigate('/');
             }, 2000);
         } catch(error: unknown) {
-            setToast({ message: 'Signup failed', type: 'error'})
+            toast.error('Signup failed');
         }
     }
 
@@ -64,16 +65,10 @@ const Signup: React.FC = () => {
                             </label>
                     </fieldset>
                     <button type="submit">Sign up</button>
-                    {toast && (
-                        <Toast
-                            message={toast.message}
-                            type={toast.type}
-                            onClose={() => setToast(null)} 
-                            />
-                    )}
-                            
+                     
                 </form>
             </div>
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar />
         </div>
     )
 }

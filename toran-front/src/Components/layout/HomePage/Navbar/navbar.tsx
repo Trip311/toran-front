@@ -4,14 +4,18 @@ import { FiRepeat } from 'react-icons/fi';
 import { FaCog, FaSave } from 'react-icons/fa';
 import styles from './navbar.module.scss';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ChangePassword from './ChangePassword/ChangePassword'; // adjust the path if needed
+
+
+
 
 const Navbar = () => {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const storedUsername = localStorage.getItem('username');
     const [isChangePassword, setIsChangePassword] = useState(false);
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+
 
     const [username, setUsername] = useState('guest');
 
@@ -30,38 +34,13 @@ const Navbar = () => {
     }
 
     const toggleChangePasswordScreen = () => {
-        setIsChangePassword(!isChangePassword);
+        setIsChangePassword(prev => !prev);
     }
 
-    const handleSave = async () => {
-        
-        if (newPassword.length < 6) {
-            alert("Password cant be over than 6 letters");
-            return;
-        }
-
-        if (newPassword !== confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
-
-        try {
-            console.log(username);
-
-            const response = await axios.post("http://localhost:5000/api/auth/change", {
-                username,
-                newPassword
-            })
-            alert(response.data.message);
-            console.log(response.data);
-        } catch (err) {
-            alert("Error changing password");
-        }
-    }
-
-
+    
     return (
         <div className={styles.sidenavbar}>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover theme="colored" />
             <div className={styles.logosection}>
                 <h1>Toran</h1>
             </div>
@@ -75,15 +54,10 @@ const Navbar = () => {
                     <div className={styles.settingsubmenu}>
                         <div className={styles.submenuitem} onClick={toggleChangePasswordScreen}>Change Password</div>
                         {isChangePassword && (
-                            <div className={styles.helpscreen}>
-                                <div className={styles.helpcontent}>
-                                    <h2 className={styles.helptitle}>Change password: </h2>
-                                    <input type="password" placeholder="New password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required/>
-                                    <input type="password" placeholder="Confirm New password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required/>
-                                    <button className={styles.savebutton} onClick={handleSave}><FaSave/> Save</button>
-                                    <button className={styles.closebutton} onClick={toggleChangePasswordScreen}>X</button>
-                                </div>
-                            </div>
+                            <ChangePassword
+                                username={storedUsername}
+                                onClose={toggleChangePasswordScreen}
+                            />
                         )}
                         <div className={styles.submenuitem} onClick={handleLogout}>Logout</div>
                     </div>
@@ -94,7 +68,7 @@ const Navbar = () => {
                     <span>switch shifts</span>
                 </div>
                 <div className={styles.footer}>
-                    <p>Logget in as:</p>
+                    <p>Logged in as:</p>
                     <strong>{storedUsername}</strong>
                 </div>
             </div>
