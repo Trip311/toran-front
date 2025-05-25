@@ -13,8 +13,31 @@
     align-items: center;
 
     .signupBox {
-
         @include vars.auth-box();
+
+        .datePicker {
+
+            width: 35%;
+            font-size: 1rem;
+            // padding-right: 2.5rem;
+            padding: 0.6rem 2.5rem 0.6rem 0.75rem;
+
+            color: #333;
+            text-align: left; 
+
+            /* Remove inner spin buttons on some browsers */
+            &::-webkit-inner-spin-button, 
+            &::-webkit-calendar-picker-indicator {
+                cursor: pointer;
+                filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(180deg);
+                transition: filter 0.3s ease;
+            }
+    
+        
+        }
+
+
+    
 
         fieldset {
             display: flex;
@@ -27,13 +50,11 @@
                 align-items: center;
                 gap: 3px;
                 cursor: pointer;
-
             }
 
             input[type="radio"] {
                 margin: 0;
             }
-
         }
 
         button {
@@ -47,3 +68,5 @@
         }
     }
 }
+
+

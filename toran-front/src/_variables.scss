@@ -20,7 +20,7 @@ $login-box-height: 450px;
 $login-box-width: 450px;
 
 @mixin auth-box() {
-    position: fixed;
+    position: relative;
     background-color: $card-bg;
     padding: 3rem;
     border-radius: 0.5rem;
@@ -42,6 +42,8 @@ $login-box-width: 450px;
         font-size: 16px;
         transition: border-color 0.3s ease;
     }
+
+
 }
 
 //--------------------------------------------------------

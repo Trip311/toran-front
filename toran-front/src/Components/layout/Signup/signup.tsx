@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
 const Signup: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -48,7 +49,10 @@ const Signup: React.FC = () => {
                     <label>Password:</label>
                         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                     <label>Date of birth:</label>
-                        <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} required/>
+                        
+
+                        <input type="date" value={dateOfBirth} className={styles.datePicker} onChange={(e) => setDateOfBirth(e.target.value)} required/>
+
                     <fieldset>
                         <legend>Gender</legend>
                             <label>
