@@ -54,10 +54,7 @@ const MyCalendar: React.FC = () => {
         }
     }, [dispatch])
 
-    useEffect(() => {
-        console.log("Events:", events);
-    }, [events]);
-
+    
     const eventStyleGetter = (event: IEvent) => {
         const backgroundColor = event.type === 'jira' ? '#add8e6' : '#90EE90';
         return {
