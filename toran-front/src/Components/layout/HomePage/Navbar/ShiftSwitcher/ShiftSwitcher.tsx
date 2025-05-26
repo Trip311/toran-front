@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import styles from './ShiftSwitcher.module.scss';
 import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
@@ -9,6 +10,8 @@ interface ShiftSwitcherProps {
   currentUser: string;
   onClose: () => void;
 }
+
+
 
 type ShiftType = 'jira' | 'kitchen';
 const today = new Date();
@@ -66,6 +69,7 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
     User2: ${secondUser} on ${secondUserShiftDate}
     Reason: ${reason}`);
 
+    
     onClose();
   };
 
