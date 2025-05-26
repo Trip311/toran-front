@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import React, { Suspense, lazy } from 'react';
 import Welcome from './Components/layout/Welcome/welcome';
+import Loader from './Components/layout/Loader';
 const Login = lazy(() => import('./Components/layout/Login/login'));
 const Signup = lazy(() => import('./Components/layout/Signup/signup'));
 const Home = lazy(() => import('./Components/layout/HomePage/homepage'));
@@ -8,7 +9,7 @@ const Home = lazy(() => import('./Components/layout/HomePage/homepage'));
 
 const AppRounter = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader/>}>
             <Routes>
                 <Route path='/' element={<Welcome/>}/>
                 <Route path='/login' element={<Login/>}/>
