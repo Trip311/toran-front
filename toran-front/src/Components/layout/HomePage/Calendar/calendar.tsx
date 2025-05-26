@@ -62,6 +62,7 @@ const MyCalendar: React.FC = () => {
             style: {
                 backgroundColor,
                 color: 'white',
+                border: 'none'
             }
         }
     }
