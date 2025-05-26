@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
 import { fetchEvents } from '../../Calendar/redux/eventSlice';
 import { fetchUsers } from '../../Calendar/redux/userSlice';
 
+
 interface ShiftSwitcherProps {
   currentUser: string;
   onClose: () => void;
