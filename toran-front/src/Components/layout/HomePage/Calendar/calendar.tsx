@@ -8,6 +8,7 @@ import type { IEvent } from "../../../../interfaces/event.interface";
 import EventFormModal from './eventform/eventFormModal';
 import { fetchEvents } from "./redux/eventSlice";
 
+
 const localizer = momentLocalizer(moment);
 
 const MyCalendar: React.FC = () => {
@@ -60,10 +61,7 @@ const MyCalendar: React.FC = () => {
         return {
             style: {
                 backgroundColor,
-                borderRadius: '4px',
                 color: 'white',
-                border: '0px',
-                display: 'block',
             }
         }
     }
@@ -93,6 +91,7 @@ const MyCalendar: React.FC = () => {
                         <div>
                             <strong>{event.title}</strong>
                             <div style={{ fontSize: '0.85rem', color: 'black'}}>
+
                                 {event.username}
                             </div>
                         </div>
