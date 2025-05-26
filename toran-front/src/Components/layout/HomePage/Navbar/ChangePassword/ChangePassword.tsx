@@ -28,9 +28,10 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) =>
 
         try {
             const response = await axios.post("http://localhost:5000/api/auth/change", {
-                storedUsername: username,
+                username,
                 newPassword
             });
+            console.log(response.data);
             toast.success(response.data.message || "Password changed successfully!");
             onClose(); // Close the modal
         } catch (err) {
