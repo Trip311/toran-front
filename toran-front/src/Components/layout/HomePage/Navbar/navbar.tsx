@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChangePassword from './ChangePassword/ChangePassword';
 import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
+import axios from 'axios';
 
 
 
@@ -18,7 +19,7 @@ const Navbar = () => {
     const [isChangePassword, setIsChangePassword] = useState(false);
     const [showSwitchShifts, setShowSwitchShifts] = useState(false);
 
-    const usersList = ['user1', 'user2'];
+    
 
     const [username, setUsername] = useState('guest');
 
@@ -86,7 +87,6 @@ const Navbar = () => {
                 {showSwitchShifts && storedUsername && storedUsername !== 'guest' && (
                     <ShiftSwitcher
                         currentUser={storedUsername}
-                        users={usersList}
                         onClose={() => setShowSwitchShifts(false)}
                     />
                 )}

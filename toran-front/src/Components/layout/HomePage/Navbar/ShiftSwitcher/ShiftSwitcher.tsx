@@ -1,91 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ShiftSwitcher.module.scss';
+import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
+import { fetchEvents } from '../../Calendar/redux/eventSlice';
+import { fetchUsers } from '../../Calendar/redux/userSlice';
 
 interface ShiftSwitcherProps {
   currentUser: string;
-  users?: string[];      // usernames array for second user selection
   onClose: () => void;
 }
 
-type ShiftType = 'jira' | 'kitchen'; // add in global defintion
+type ShiftType = 'jira' | 'kitchen';
+const today = new Date();
 
+const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) => {
+  const dispatch = useAppDispatch();
 
-
-// default data for testing , TODO: use api for those.
-const mockShiftData: Record<ShiftType, Record<string, string[]>> = {
-  jira: {
-    user1: ['2025-06-01', '2025-06-03', '2025-06-05'],
-    user2: ['2025-06-02', '2025-06-04', '2025-06-06'],
-  },
-  kitchen: {
-    user1: ['2025-06-01', '2025-06-02', '2025-06-07'],
-    user2: ['2025-06-03', '2025-06-05', '2025-06-06'],
-  }
-};
-
-const today = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
-
-const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({
-  currentUser,
-  users = ['user1', 'user2'], // default users if not provided, TODO: api req for users
-  onClose
-}) => {
-
-  // Set default shiftType to 'jira' so form shows immediately
   const [shiftType, setShiftType] = useState<ShiftType>('jira');
-  const [userShiftDates, setUserShiftDates] = useState<string[]>([]);
-  // default first available date from mockShiftData for currentUser & jira
-  const defaultUserShiftDate = mockShiftData['jira'][currentUser]?.[0] || '';
-  const [userShiftDate, setUserShiftDate] = useState(defaultUserShiftDate);
+  const [userShiftDate, setUserShiftDate] = useState('');
+  const [secondUser, setSecondUser] = useState('');
+  const [secondUserShiftDate, setSecondUserShiftDate] = useState('');
+  const [reason, setReason] = useState('');
 
-  // default second user different from currentUser
-  const defaultSecondUser = users.find(u => u !== currentUser) || '';
-  const [secondUser, setSecondUser] = useState(defaultSecondUser);
+  const users = useAppSelector(state => state.users.users);
+  const allEvents = useAppSelector(state => state.event.events); 
 
-  const [secondUserShiftDates, setSecondUserShiftDates] = useState<string[]>([]);
-  const defaultSecondUserShiftDate = defaultSecondUser
-    ? mockShiftData['jira'][defaultSecondUser]?.[0] || ''
-    : '';
-  const [secondUserShiftDate, setSecondUserShiftDate] = useState(defaultSecondUserShiftDate);
-
-  const [reason, setReason] = useState('Testing shift switch');
-
-  // Update current user's shifts when shiftType or currentUser changes
+  // Fetch all data once
   useEffect(() => {
-    if (!shiftType) {
-      setUserShiftDates([]);
+    dispatch(fetchUsers());  
+    dispatch(fetchEvents()); 
+  }, [dispatch]);
+
+  const getShiftDates = (username: string): string[] => {
+    return allEvents
+      .filter(ev => ev.username === username && ev.type === shiftType && new Date(ev.endDate) > today)
+      .map(ev => ev.endDate.split('T')[0]);
+  };
+
+  const userShiftDates = getShiftDates(currentUser);
+  const secondUserShiftDates = getShiftDates(secondUser);
+
+  // Keep selected value unless it's no longer available
+  useEffect(() => {
+    if (userShiftDate && !userShiftDates.includes(userShiftDate)) {
       setUserShiftDate('');
-      return;
     }
+  }, [userShiftDates]);
 
-    const shiftsForUser = mockShiftData[shiftType][currentUser] || [];
-
-    const filteredShifts = shiftType === 'jira'
-      ? shiftsForUser.filter(date => date > today)
-      : shiftsForUser;
-
-    setUserShiftDates(filteredShifts);
-
-    // Set to first available date or empty string if none
-    setUserShiftDate(filteredShifts[0] || '');
-    setSecondUser('');
-    setSecondUserShiftDates([]);
-    setSecondUserShiftDate('');
-  }, [shiftType, currentUser]);
-
-  // Update second user's shifts when secondUser or shiftType changes
   useEffect(() => {
-    if (!secondUser || !shiftType) {
-      setSecondUserShiftDates([]);
+    if (secondUserShiftDate && !secondUserShiftDates.includes(secondUserShiftDate)) {
       setSecondUserShiftDate('');
-      return;
     }
-
-    const shiftsForSecondUser = mockShiftData[shiftType]?.[secondUser] || [];
-    setSecondUserShiftDates(shiftsForSecondUser);
-
-    setSecondUserShiftDate(shiftsForSecondUser[0] || '');
-  }, [secondUser, shiftType]);
+  }, [secondUserShiftDates]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,104 +60,81 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({
       return;
     }
 
-
-    // TODO: implement the switching or sent it to a component that will be like a list of reqs for super user
     alert(`Request to switch shifts:
-            User1: ${currentUser} on ${userShiftDate}
-            User2: ${secondUser} on ${secondUserShiftDate}
-            Reason: ${reason}`);
+    User1: ${currentUser} on ${userShiftDate}
+    User2: ${secondUser} on ${secondUserShiftDate}
+    Reason: ${reason}`);
 
     onClose();
   };
-
-  // TODO: change the date picker so it would work with api 
-  // to fetch all events for user at a specific type that happen after current day
-  // using api to fetch all users when the second user choosing
-  // to fetch all events for user at a specific type that happen after current day in second user
-
-
-  // implement switching method or sending notification to super user
 
   return (
     <div className={styles.shiftSwitcherContainer}>
       <h2>Switch Shifts</h2>
       <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
-          <label>The teammate:</label>
+          <label>Your Name:</label>
           <input type="text" value={currentUser} readOnly />
         </div>
 
         <div className={styles.formGroup}>
           <label>Type of Shift:</label>
-          <select value={shiftType} onChange={e => setShiftType(e.target.value as ShiftType)} required>
-            <option value="">Select shift type</option>
+          <select value={shiftType} onChange={e => setShiftType(e.target.value as ShiftType)}>
             <option value="jira">Jira</option>
             <option value="kitchen">Kitchen</option>
           </select>
         </div>
 
-        
-        
-        {shiftType && (
-          <div className={styles.formGroup}>
-            <label>Your Shift Date:</label>
-            <select value={userShiftDate} onChange={e => setUserShiftDate(e.target.value)} required>
-              <option value="">Select your shift date</option>
-              {(userShiftDates.length > 0 ? userShiftDates : ['2025-07-01']).map(date => (
+        <div className={styles.formGroup}>
+          <label>Your Shift Date:</label>
+          <select value={userShiftDate} onChange={e => setUserShiftDate(e.target.value)}>
+            <option value="">Select your shift date</option>
+            {userShiftDates.map(date => (
               <option key={date} value={date}>{date}</option>
-            ))} 
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Select Teammate:</label>
+          <select value={secondUser} onChange={e => setSecondUser(e.target.value)}>
+            <option value="">Select user</option>
+            {users
+              .filter(u => u.username !== currentUser)
+              .map(user => (
+                <option key={user.username} value={user.username}>{user.username}</option>
+              ))}
+          </select>
+        </div>
+
+        {secondUser && (
+          <div className={styles.formGroup}>
+            <label>{secondUser}'s Shift Date:</label>
+            <select
+              value={secondUserShiftDate}
+              onChange={e => setSecondUserShiftDate(e.target.value)}
+            >
+              <option value="">Select shift date</option>
+              {secondUserShiftDates.map(date => (
+                <option key={date} value={date}>{date}</option>
+              ))}
             </select>
           </div>
         )}
 
-        {userShiftDate && (
-          <>
-            <div className={styles.formGroup}>
-              <label>Second User:</label>
-              <select value={secondUser} onChange={e => setSecondUser(e.target.value)} required>
-                <option value="">Select user</option>
-                {users.filter(u => u !== currentUser).map(user => (
-                  <option key={user} value={user}>{user}</option>
-                ))}
-              </select>
-            </div>
+        <div className={styles.formGroup}>
+          <label>Reason for Switching:</label>
+          <textarea
+            value={reason}
+            onChange={e => setReason(e.target.value)}
+            placeholder="Enter reason"
+          />
+        </div>
 
-            {secondUser && (
-              <div className={styles.formGroup}>
-                <label>Second User's Shift Date:</label>
-                <select
-                  value={secondUserShiftDate}
-                  onChange={e => setSecondUserShiftDate(e.target.value)}
-                  required
-                >
-                  <option value="">Select shift date</option>
-                  {secondUserShiftDates.length > 0 ? (
-                    secondUserShiftDates.map(date => (
-                      <option key={date} value={date}>{date}</option>
-                    ))
-                  ) : (
-                    <option disabled>No shifts available</option>
-                  )}
-                </select>
-              </div>
-            )}
-
-            <div className={styles.formGroup}>
-              <label>Reason for Switching:</label>
-              <textarea
-                value={reason}
-                onChange={e => setReason(e.target.value)}
-                placeholder="Enter reason"
-                required
-              />
-            </div>
-
-            <div className={styles.buttonGroup}>
-              <button type="submit">Submit</button>
-              <button type="button" onClick={onClose}>Cancel</button>
-            </div>
-          </>
-        )}
+        <div className={styles.buttonGroup}>
+          <button type="submit">Submit</button>
+          <button type="button" onClick={onClose}>Cancel</button>
+        </div>
       </form>
     </div>
   );
