@@ -45,31 +45,57 @@ const Signup: React.FC = () => {
                 <h2>Sign up</h2>
                 <form onSubmit={handleSignup}>
                     <label>Username:</label>
-                        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+                        <input type="text" 
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required/>
                     <label>Password:</label>
-                        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                        <input type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required/>
                     <label>Date of birth:</label>
-                        
-
-                        <input type="date" value={dateOfBirth} className={styles.datePicker} onChange={(e) => setDateOfBirth(e.target.value)} required/>
-
+                        <input type="date"
+                            value={dateOfBirth}
+                            className={styles.datePicker}
+                            onChange={(e) => setDateOfBirth(e.target.value)}
+                            required/>
                     <fieldset>
                         <legend>Gender</legend>
                             <label>
-                                <input type="radio" name="gender" value="male" checked={gender === 'male'} onChange={(e) => setGender(e.target.value)}></input>
+                                <input
+                                 type="radio"
+                                 name="gender"
+                                 value="male" 
+                                 checked={gender === 'male'} 
+                                 onChange={(e) => setGender(e.target.value)}>
+                                </input>
                                 Male
                             </label>
                             <label>
-                                <input type="radio" name="gender" value="female" checked={gender === 'female'} onChange={(e) => setGender(e.target.value)}></input>
+                                <input 
+                                type="radio" 
+                                name="gender" 
+                                value="female" 
+                                checked={gender === 'female'} 
+                                onChange={(e) => setGender(e.target.value)}>
+                                </input>
                                 Feamle
                             </label>
                             <label>
-                                <input type="radio" name="gender" value="other" checked={gender === 'other'} onChange={(e) => setGender(e.target.value)}></input>
+                                <input 
+                                type="radio" 
+                                name="gender" 
+                                value="other" 
+                                checked={gender === 'other'} 
+                                onChange={(e) => setGender(e.target.value)}>
+                                </input>
                                 Other
                             </label>
                     </fieldset>
-                    <button type="submit">Sign up</button>
-                     
+                    <button type="submit">Sign up</button>      
                 </form>
             </div>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar />
@@ -77,4 +103,4 @@ const Signup: React.FC = () => {
     )
 }
 
-export default Signup
+export default Signup;

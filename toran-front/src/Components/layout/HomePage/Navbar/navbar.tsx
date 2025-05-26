@@ -4,7 +4,7 @@ import { FiRepeat } from 'react-icons/fi';
 import { FaCog, FaSave, FaListAlt } from 'react-icons/fa';
 import styles from './navbar.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChangePassword from './ChangePassword/ChangePassword';
 import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
@@ -13,7 +13,7 @@ import axios from 'axios';
 
 
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const storedUsername = localStorage.getItem('username');
     const [isChangePassword, setIsChangePassword] = useState(false);
@@ -46,12 +46,11 @@ const Navbar = () => {
         if (storedUsername) {  // Only allow if user logged in
             setShowSwitchShifts(prev => !prev);
         } else {
-            alert('Please login to switch shifts');
+            toast.error('Please login to switch shifts');
         }
     }
 
     const handleViewRequests = () => {
-        alert('Redirect to request management (for Admin)');
         navigate('/requests');
     }
 
