@@ -2,6 +2,6 @@ export interface IUser {
     id?: number;
     username: string;
     password: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
     gender: string;
 }
