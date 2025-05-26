@@ -69,7 +69,7 @@ const MyCalendar: React.FC = () => {
     }
 
     return (
-        <div style={{ padding: '30px', flex: 1}}>
+        <div style={{ padding: '30px', flex: 1 }}>
             <div
                 style={{
                     backgroundColor: '#ffffff',
@@ -92,7 +92,7 @@ const MyCalendar: React.FC = () => {
                     event: ({ event }) => (
                         <div>
                             <strong>{event.title}</strong>
-                            <div style={{ fontSize: '0.75rem', color: 'black'}}>
+                            <div style={{ fontSize: '0.85rem', color: 'black'}}>
                                 {event.username}
                             </div>
                         </div>
