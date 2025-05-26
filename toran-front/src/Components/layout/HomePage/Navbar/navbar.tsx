@@ -18,6 +18,7 @@ const Navbar = () => {
     const storedUsername = localStorage.getItem('username');
     const [isChangePassword, setIsChangePassword] = useState(false);
     const [showSwitchShifts, setShowSwitchShifts] = useState(false);
+    
 
     
 
@@ -51,6 +52,7 @@ const Navbar = () => {
 
     const handleViewRequests = () => {
         alert('Redirect to request management (for Admin)');
+        navigate('/requests');
     }
 
     

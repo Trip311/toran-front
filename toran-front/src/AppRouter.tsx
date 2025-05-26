@@ -5,6 +5,7 @@ import Loader from './Components/layout/Loader';
 const Login = lazy(() => import('./Components/layout/Login/login'));
 const Signup = lazy(() => import('./Components/layout/Signup/signup'));
 const Home = lazy(() => import('./Components/layout/HomePage/homepage'));
+const ViewReqs = lazy(() => import('./Components/layout/ViewReqs/ViewReqs'));
 
 
 const AppRounter = () => {
@@ -15,6 +16,7 @@ const AppRounter = () => {
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/signup' element={<Signup/>}/>
                 <Route path='/home' element={<Home/>}/>
+                <Route path='/requests' element={<ViewReqs/>}/>
             </Routes>
         </Suspense>
     )

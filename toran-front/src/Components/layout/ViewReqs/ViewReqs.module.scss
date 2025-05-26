@@ -1,0 +1,54 @@
+
+
+@use '../../../variables' as vars;
+
+.notadmincontainer {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: vars.$background-image;
+    background-position: vars.$background-position;
+    width: vars.$background-width;
+    height: vars.$background-height;
+  
+  .notadmincard {
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+    background: whitesmoke;
+    animation: fadeIn 0.4s ease-in-out;
+
+    .notadmincard h2 {
+        font-size: 26px;
+        margin-bottom: 16px;
+        letter-spacing: 0.5px;
+    }
+
+    .notadmincard p {
+        color: #444;
+        font-size: 17px;
+        line-height: 1.5;
+        margin-bottom: 24px;
+    }
+
+    .notadmincard button {
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        transition: all 0.3s ease;
+    }
+
+  }
+}
+
+
+
+
