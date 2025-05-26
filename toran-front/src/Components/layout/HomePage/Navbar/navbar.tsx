@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { FiRepeat } from 'react-icons/fi';
-import { FaCog, FaSave } from 'react-icons/fa';
+import { FaCog, FaSave, FaListAlt } from 'react-icons/fa';
 import styles from './navbar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -48,6 +48,10 @@ const Navbar = () => {
         }
     }
 
+    const handleViewRequests = () => {
+        alert('Redirect to request management (for Admin)');
+    }
+
     
     return (
         <div className={styles.sidenavbar}>
@@ -85,6 +89,14 @@ const Navbar = () => {
                         users={usersList}
                         onClose={() => setShowSwitchShifts(false)}
                     />
+                )}
+
+
+                 {storedUsername === 'Admin' && (
+                    <div className={styles.navitem} onClick={handleViewRequests}>
+                        <FaListAlt size={20} />
+                        <span>View Shift Requests</span>
+                    </div>
                 )}
                 <div className={styles.footer}>
                     <p>Logged in as:</p>
