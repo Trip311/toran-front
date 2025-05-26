@@ -51,21 +51,21 @@ export const deleteEvent = createAsyncThunk(
     }
 )
 
-export const fetchFilteredEvents = createAsyncThunk(
-    'events/fetchFilteredEvents',
-    async ({ username, type }: { username: string; type?: string }) => {
-        const params = new URLSearchParams();
-        params.append('username', username);
-        if (type) params.append('type', type);
+// export const fetchFilteredEvents = createAsyncThunk(
+//     'events/fetchFilteredEvents',
+//     async ({ username, type }: { username: string; type?: string }) => {
+//         const params = new URLSearchParams();
+//         params.append('username', username);
+//         if (type) params.append('type', type);
 
-        const response = await axios.get(`${API_URL}/filter?${params.toString()}`);
-        return response.data.map((event: any) => ({
-            ...event,
-            startDate: new Date(event.startDate).toISOString(),
-            endDate: new Date(event.endDate).toISOString()
-        }));
-    }
-);
+//         const response = await axios.get(`${API_URL}/filter?${params.toString()}`);
+//         return response.data.map((event: any) => ({
+//             ...event,
+//             startDate: new Date(event.startDate).toISOString(),
+//             endDate: new Date(event.endDate).toISOString()
+//         }));
+//     }
+// );
 
 
 const eventSlice = createSlice({
@@ -74,7 +74,7 @@ const eventSlice = createSlice({
         events: [] as IEvent[],
         loading: false,
         error: null as string | null,
-        filteredEvents: [] as IEvent[],
+        // filteredEvents: [] as IEvent[],
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -110,17 +110,17 @@ const eventSlice = createSlice({
             .addCase(deleteEvent.rejected, (state, action) => {
                 state.error = action.payload as string || "Failed to delete event";
             })
-            .addCase(fetchFilteredEvents.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(fetchFilteredEvents.fulfilled, (state, action) => {
-                state.filteredEvents = action.payload;
-                state.loading = false;
-            })
-            .addCase(fetchFilteredEvents.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message || "Failed to fetch filtered events";
-            })
+            // .addCase(fetchFilteredEvents.pending, (state) => {
+            //     state.loading = true;
+            // })
+            // .addCase(fetchFilteredEvents.fulfilled, (state, action) => {
+            //     state.filteredEvents = action.payload;
+            //     state.loading = false;
+            // })
+            // .addCase(fetchFilteredEvents.rejected, (state, action) => {
+            //     state.loading = false;
+            //     state.error = action.error.message || "Failed to fetch filtered events";
+            // })
     }
 })
 
