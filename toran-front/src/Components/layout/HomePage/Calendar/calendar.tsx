@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer, View } from "react-big-calendar";
 import moment from 'moment'; 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
@@ -25,6 +25,8 @@ const MyCalendar: React.FC = () => {
     const dispatch = useAppDispatch();
     const [modalOpen, setModalOpen] = useState(false);
     const [slotInfo, setSlotInfo] = useState<any>(null);
+    const [currentView, setCurrentView] = useState<View>("week")
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
 
@@ -34,6 +36,17 @@ const MyCalendar: React.FC = () => {
         setSelectedEvent(null);
         setModalOpen(true);
     }
+
+    const handleChangeView = (view: View)=>{
+        console.log(view)
+        setCurrentView(view)
+        
+    }
+
+    const handleDayChange = (date: Date, view: View) => {
+        console.log('Navigated to:', date);
+        setCurrentDate(date);
+    };
 
     const handleSelectEvent = (event: IEvent) => {
         if (username === 'guest') return;
@@ -66,7 +79,8 @@ const MyCalendar: React.FC = () => {
             }
         }
     }
-
+    
+    
     return (
         <div style={{ padding: '30px', flex: 1 }}>
             <div
@@ -83,7 +97,10 @@ const MyCalendar: React.FC = () => {
                 startAccessor="startDate"
                 endAccessor="endDate"
                 selectable
+                onView={handleChangeView}
+                view={currentView}
                 defaultView="week"
+                onNavigate={handleDayChange} 
                 onSelectSlot={handleSelectSlot}
                 onSelectEvent={handleSelectEvent}
                 eventPropGetter={eventStyleGetter}
