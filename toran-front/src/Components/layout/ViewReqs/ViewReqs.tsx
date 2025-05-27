@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './ViewReqs.module.scss'; // Optional: For custom styling
+import { useAppDispatch, useAppSelector } from '../../layout/HomePage/Calendar/redux/hooks';
+import { fetchRequests } from "../HomePage/Calendar/redux/requestSlice";
+
+import ReqDetails from './ReqDetails/ReqDetails'
 
 const ViewReqs: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
+  const pendingReqs = useAppSelector((state) => state.request.requests);
+
+
+
+  useEffect(() => {
+    dispatch(fetchRequests());
+  }, [dispatch]);
+
+  
 
   const handleGoHome = () => {
     navigate('/home');
@@ -23,9 +37,15 @@ const ViewReqs: React.FC = () => {
   }
 
   return (
-    <div className="view-reqs-container">
-      <h1>Hello world (Admin View)</h1>
-      {/* Add your admin-only components here */}
+    <div className={styles.viewreqscontainer}>
+        <div className={styles.reqListWrapper}>
+          {pendingReqs.map(req => (
+            <ReqDetails
+              key={req.id}
+              request={req}
+            />
+        ))}
+        </div>
     </div>
   );
 };

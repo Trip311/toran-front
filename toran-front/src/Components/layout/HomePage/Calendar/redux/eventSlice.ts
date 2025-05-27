@@ -74,7 +74,6 @@ const eventSlice = createSlice({
         events: [] as IEvent[],
         loading: false,
         error: null as string | null,
-        // filteredEvents: [] as IEvent[],
     },
     reducers: {},
     extraReducers: (builder) => {

@@ -4,12 +4,9 @@ import styles from './ShiftSwitcher.module.scss';
 import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
 import { fetchEvents } from '../../Calendar/redux/eventSlice';
 import { fetchUsers } from '../../Calendar/redux/userSlice';
-
-
-interface ShiftSwitcherProps {
-  currentUser: string;
-  onClose: () => void;
-}
+import { addRequest } from '../../Calendar/redux/requestSlice';
+import { ShiftSwitcherProps } from '../../../../../interfaces/shiftswitch.props';
+import { IRequest } from '../../../../../interfaces/request.interface';
 
 
 
@@ -64,12 +61,21 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
       return;
     }
 
-    alert(`Request to switch shifts:
-    User1: ${currentUser} on ${userShiftDate}
-    User2: ${secondUser} on ${secondUserShiftDate}
-    Reason: ${reason}`);
+
+    const payload: IRequest = {
+      fromUser: currentUser,
+      fromDate: userShiftDate,
+      toUser: secondUser,
+      toDate: secondUserShiftDate,
+      shiftType: shiftType,
+      reason: reason,
+    }
+
+    console.log(payload.id);
 
     
+    dispatch(addRequest(payload));
+
     onClose();
   };
 

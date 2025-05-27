@@ -49,6 +49,20 @@
   }
 }
 
+.viewreqscontainer {
+  background: vars.$background-image;
+  background-position: vars.$background-position;
+  width: vars.$background-width;
+  height: vars.$background-height;
+  display: flex;
+}
+
+.reqListWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
 
 
 
