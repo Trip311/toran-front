@@ -43,7 +43,7 @@ const MyCalendar: React.FC = () => {
         
     }
 
-    const handleDayChange = (date: Date, view: View) => {
+    const handleDayChange = (date: Date) => {
         console.log('Navigated to:', date);
         setCurrentDate(date);
     };
@@ -97,6 +97,7 @@ const MyCalendar: React.FC = () => {
                 startAccessor="startDate"
                 endAccessor="endDate"
                 selectable
+                date={currentDate}
                 onView={handleChangeView}
                 view={currentView}
                 defaultView="week"
