@@ -11,6 +11,7 @@ import { IRequest } from '../../../../../interfaces/request.interface';
 type ShiftType = 'jira' | 'kitchen';
 
 const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) => {
+
   const dispatch = useAppDispatch();
 
   const [shiftType, setShiftType] = useState<ShiftType>('jira');
@@ -19,7 +20,7 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
   const [secondUserShiftDate, setSecondUserShiftDate] = useState('');
   const [reason, setReason] = useState('');
 
-  const users = useAppSelector(state => state.users.users);
+  const allUsers = useAppSelector(state => state.users.users);
   const allEvents = useAppSelector(state => state.event.events);
 
   useEffect(() => {
@@ -38,12 +39,14 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
       .map(ev => ev.endDate.split('T')[0]);
   };
 
+  // instead of calcultating it every time there's a render
+
   const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, currentUser, shiftType]);
   const secondUserShiftDates = useMemo(() => getShiftDates(secondUser), [allEvents, secondUser, shiftType]);
 
   const availableUsers = useMemo(
-    () => users.filter(u => u.username !== currentUser),
-    [users, currentUser]
+    () => allUsers.filter(u => u.username !== currentUser),
+    [allUsers, currentUser]
   );
 
   useEffect(() => {
