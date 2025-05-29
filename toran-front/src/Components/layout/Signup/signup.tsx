@@ -95,7 +95,8 @@ const Signup: React.FC = () => {
                                 Other
                             </label>
                     </fieldset>
-                    <button type="submit">Sign up</button>      
+                    <button type="submit">Sign up</button>
+                    <button type="button" onClick={() => navigate('/')}>Back</button>      
                 </form>
             </div>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar />
