@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -11,6 +12,12 @@ const Login: React.FC = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isForgotMode, setIsForgotMode] = useState(false);
+
+    // 👁 Add state for visibility toggles
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -20,7 +27,6 @@ const Login: React.FC = () => {
                 username,
                 password
             });
-            console.log(res.data);
             toast.success('Login successful!');
             localStorage.setItem('username', username);
             navigate('/home');
@@ -41,7 +47,6 @@ const Login: React.FC = () => {
                 username,
                 newPassword
             });
-            console.log(res.data);
             toast.success('Password reset successful!');
             setIsForgotMode(false);
         } catch (error: unknown) {
@@ -63,29 +68,60 @@ const Login: React.FC = () => {
                     />
                     {isForgotMode ? (
                         <>
-                            <input
-                                type="password"
-                                placeholder="New Password"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="password"
-                                placeholder="Confirm New Password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
+                            <div className={styles.passwordInput}>
+                                <input
+                                    type={showNewPassword ? "text" : "password"}
+                                    placeholder="New Password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                    aria-label="Toggle new password visibility"
+                                >
+                                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
+                            </div>
+
+                            <div className={styles.passwordInput}>
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    placeholder="Confirm New Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    aria-label="Toggle confirm password visibility"
+                                >
+                                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
+                            </div>
                         </>
                     ) : (
-                        <input
-                            type="password"
+                        <div className={styles.passwordInput}>
+                            <input
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                        />
+                            />
+                            <button
+                                type="button"
+                                className={styles.eyeButton}
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label="Toggle password visibility"
+                            >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
                     )}
                     <button type="submit">{isForgotMode ? 'Reset Password' : 'Login'}</button>
                     <button type="button" onClick={() => navigate('/')}>Back</button>
