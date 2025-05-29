@@ -12,7 +12,7 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
   const handleDelete = async () => {
 
     try {
-      
+
       if (request?.id) {
         await dispatch(deleteRequest(request.id)).unwrap();
       }
