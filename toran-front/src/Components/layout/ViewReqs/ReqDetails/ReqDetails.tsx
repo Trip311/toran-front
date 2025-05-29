@@ -1,31 +1,78 @@
 import React from 'react';
 import styles from './ReqDetails.module.scss';
 import { ReqDetailsProps } from '../../../../interfaces/reqdetails.props';
-import { useAppDispatch } from '../../HomePage/Calendar/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../HomePage/Calendar/redux/hooks';
 import { deleteRequest } from '../../HomePage/Calendar/redux/requestSlice';
-
+import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice';
 
 const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
-
   const dispatch = useAppDispatch();
+  const allEvents = useAppSelector(state => state.event.events);
 
   const handleDelete = async () => {
-
     try {
-
       if (request?.id) {
         await dispatch(deleteRequest(request.id)).unwrap();
       }
     } catch (error) {
-        alert('Failed to delete request: ' + (error as Error).message);
+      alert('Failed to delete request: ' + (error as Error).message);
+    }
+  };
+
+  const handleApprove = async () => {
+    if (!request?.fromUser || !request?.toUser || !request.fromDate || !request.toDate || !request.shiftType || !request.id) {
+      alert("Incomplete request data.");
+      return;
     }
 
-  }
+    try {
+      const fromEvent = allEvents.find(ev =>
+        ev.username === request.fromUser &&
+        ev.type === request.shiftType &&
+        ev.endDate.split('T')[0] === request.fromDate
+      );
 
-  const handleApprove = () => {
+      const toEvent = allEvents.find(ev =>
+        ev.username === request.toUser &&
+        ev.type === request.shiftType &&
+        ev.endDate.split('T')[0] === request.toDate
+      );
 
-  }
+      if (!fromEvent || !toEvent || !fromEvent.id || !toEvent.id) {
+        alert('Could not find both events for swap.');
+        return;
+      }
 
+      // Switch events
+      await dispatch(updateEvent({
+        id: fromEvent.id,
+        event: {
+          username: request.toUser,
+          title: request.toUser,
+          type: request.shiftType,
+          startDate: fromEvent.startDate,
+          endDate: fromEvent.endDate,
+        }
+      })).unwrap();
+
+      await dispatch(updateEvent({
+        id: toEvent.id,
+        event: {
+          username: request.fromUser,
+          title: request.fromUser,
+          type: request.shiftType,
+          startDate: toEvent.startDate,
+          endDate: toEvent.endDate,
+        }
+      })).unwrap();
+
+      await dispatch(deleteRequest(request.id)).unwrap();
+
+      alert('Shift switch approved successfully.');
+    } catch (error) {
+      alert('Failed to approve request: ' + (error as Error).message);
+    }
+  };
 
   return (
     <div className={styles.reqCard}>

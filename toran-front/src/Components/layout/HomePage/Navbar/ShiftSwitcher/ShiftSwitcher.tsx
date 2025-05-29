@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './ShiftSwitcher.module.scss';
 import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
 import { fetchEvents } from '../../Calendar/redux/eventSlice';
@@ -8,10 +7,7 @@ import { addRequest } from '../../Calendar/redux/requestSlice';
 import { ShiftSwitcherProps } from '../../../../../interfaces/shiftswitch.props';
 import { IRequest } from '../../../../../interfaces/request.interface';
 
-
-
 type ShiftType = 'jira' | 'kitchen';
-const today = new Date();
 
 const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) => {
   const dispatch = useAppDispatch();
@@ -23,24 +19,32 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
   const [reason, setReason] = useState('');
 
   const users = useAppSelector(state => state.users.users);
-  const allEvents = useAppSelector(state => state.event.events); 
+  const allEvents = useAppSelector(state => state.event.events);
 
-  // Fetch all data once
   useEffect(() => {
-    dispatch(fetchUsers());  
-    dispatch(fetchEvents()); 
+    dispatch(fetchUsers());
+    dispatch(fetchEvents());
   }, [dispatch]);
 
   const getShiftDates = (username: string): string[] => {
+    const today = new Date();
     return allEvents
-      .filter(ev => ev.username === username && ev.type === shiftType && new Date(ev.endDate) > today)
+      .filter(ev =>
+        ev.username === username &&
+        ev.type === shiftType &&
+        new Date(ev.endDate) >= today
+      )
       .map(ev => ev.endDate.split('T')[0]);
   };
 
-  const userShiftDates = getShiftDates(currentUser);
-  const secondUserShiftDates = getShiftDates(secondUser);
+  const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, currentUser, shiftType]);
+  const secondUserShiftDates = useMemo(() => getShiftDates(secondUser), [allEvents, secondUser, shiftType]);
 
-  // Keep selected value unless it's no longer available
+  const availableUsers = useMemo(
+    () => users.filter(u => u.username !== currentUser),
+    [users, currentUser]
+  );
+
   useEffect(() => {
     if (userShiftDate && !userShiftDates.includes(userShiftDate)) {
       setUserShiftDate('');
@@ -61,21 +65,16 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
       return;
     }
 
-
     const payload: IRequest = {
       fromUser: currentUser,
       fromDate: userShiftDate,
       toUser: secondUser,
       toDate: secondUserShiftDate,
-      shiftType: shiftType,
-      reason: reason,
-    }
+      shiftType,
+      reason,
+    };
 
-    console.log(payload.id);
-
-    
     dispatch(addRequest(payload));
-
     onClose();
   };
 
@@ -110,21 +109,16 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
           <label>Select Teammate:</label>
           <select value={secondUser} onChange={e => setSecondUser(e.target.value)}>
             <option value="">Select user</option>
-            {users
-              .filter(u => u.username !== currentUser)
-              .map(user => (
-                <option key={user.username} value={user.username}>{user.username}</option>
-              ))}
+            {availableUsers.map(user => (
+              <option key={user.username} value={user.username}>{user.username}</option>
+            ))}
           </select>
         </div>
 
         {secondUser && (
           <div className={styles.formGroup}>
             <label>{secondUser}'s Shift Date:</label>
-            <select
-              value={secondUserShiftDate}
-              onChange={e => setSecondUserShiftDate(e.target.value)}
-            >
+            <select value={secondUserShiftDate} onChange={e => setSecondUserShiftDate(e.target.value)}>
               <option value="">Select shift date</option>
               {secondUserShiftDates.map(date => (
                 <option key={date} value={date}>{date}</option>

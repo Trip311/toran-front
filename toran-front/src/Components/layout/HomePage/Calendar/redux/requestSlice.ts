@@ -22,7 +22,7 @@ export const addRequest = createAsyncThunk(
 )
 
 export const deleteRequest = createAsyncThunk(
-    'events/deleteRequest',
+    'requests/deleteRequest',
     async (id: number) => {
         await axios.delete(`${API_URL}/${id}`)
         return id;
