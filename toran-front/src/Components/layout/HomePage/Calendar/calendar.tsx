@@ -32,8 +32,21 @@ const MyCalendar: React.FC = () => {
         endDate: new Date(event.endDate),
     }));
 
+    const isPastDate = (date: Date): boolean => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const checkDate = new Date(date);
+        checkDate.setHours(0, 0, 0, 0);
+        return checkDate < today;
+    };
+
     const handleSelectSlot = (slot: any) => {
         if (username === "guest") return;
+
+        if (isPastDate(slot.start)) {
+            return; // Don't open modal for past dates
+        }
+
         setSlotInfo(slot);
         setSelectedEvent(null);
         setModalOpen(true);
@@ -41,6 +54,11 @@ const MyCalendar: React.FC = () => {
 
     const handleSelectEvent = (event: IEvent) => {
         if (username === "guest") return;
+
+        if (isPastDate(event.startDate)) {
+            return; // Don't allow editing past events
+        }
+
         setSelectedEvent(event);
         setSlotInfo({ start: event.startDate, end: event.endDate });
         setModalOpen(true);

@@ -77,6 +77,12 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
             alert("Guest users cannot modify events");
             return;
         }
+        const now = new Date();
+        now.setHours(0, 0, 0, 0); // Normalize to start of the day
+        if (startDate < now) {
+            alert("You cannot create or edit events in the past.");
+            return;
+        }
 
         try {
             if (isEdit && event?.id) {
@@ -122,6 +128,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
                     </select>
                 </div>
 
+                {!isEdit && (
                 <div className="form-group">
                     <label>Repeat</label>
                     <select value={repeat} onChange={(e) => setRepeat(e.target.value as any)}>
@@ -131,7 +138,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
                         <option value="weekly-3">Weekly (3 weeks)</option>
                         <option value="monthly">Monthly</option>
                     </select>
-                </div>
+                </div>)}
 
                 <div className="form-group">
                     <label>Start</label>
@@ -142,10 +149,11 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
                     <p>{endDate.toLocaleString()}</p>
                 </div>
 
+                {!isEdit && (
                 <div className="form-group">
                     <label>Notes:</label>
                     <textarea value={note} placeholder="Notes" onChange={(e) => setNote(e.target.value)} />
-                </div>
+                </div>)}
 
                 <div className="form-actions">
                     <button className="btn primary" onClick={handleSubmit}>
