@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -12,11 +12,34 @@ const Login: React.FC = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isForgotMode, setIsForgotMode] = useState(false);
-
-    // 👁 Add state for visibility toggles
+    const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const passwordToValidate = isForgotMode ? newPassword : password;
+
+    const {
+        hasMinLength,
+        hasUppercase,
+        hasLowercase,
+        hasSpecialChar,
+        isPasswordValid,
+    } = React.useMemo(() => {
+        const hasMinLength = passwordToValidate.length >= 6;
+        const hasUppercase = /[A-Z]/.test(passwordToValidate);
+        const hasLowercase = /[a-z]/.test(passwordToValidate);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(passwordToValidate);
+        const isPasswordValid = hasMinLength && hasUppercase && hasLowercase && hasSpecialChar;
+
+        return {
+            hasMinLength,
+            hasUppercase,
+            hasLowercase,
+            hasSpecialChar,
+            isPasswordValid,
+        };
+    }, [passwordToValidate]);
 
     const navigate = useNavigate();
 
@@ -39,6 +62,11 @@ const Login: React.FC = () => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
             toast.error('Passwords do not match');
+            return;
+        }
+
+        if (!isPasswordValid) {
+            toast.error('Password does not meet all requirements.');
             return;
         }
 
@@ -74,6 +102,7 @@ const Login: React.FC = () => {
                                     placeholder="New Password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
+                                    onFocus={() => setIsNewPasswordFocused(true)}
                                     required
                                 />
                                 <button
@@ -82,9 +111,29 @@ const Login: React.FC = () => {
                                     onClick={() => setShowNewPassword(!showNewPassword)}
                                     aria-label="Toggle new password visibility"
                                 >
-                                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                             </div>
+
+                            {(isNewPasswordFocused || newPassword.length > 0) && (
+                                <div className={styles.passwordValidator}>
+                                    <p>Password must include:</p>
+                                    <ul>
+                                        <li>
+                                            {hasMinLength ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} Minimum 6 characters
+                                        </li>
+                                        <li>
+                                            {hasLowercase ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One lowercase letter
+                                        </li>
+                                        <li>
+                                            {hasUppercase ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One uppercase letter
+                                        </li>
+                                        <li>
+                                            {hasSpecialChar ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One special character
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
 
                             <div className={styles.passwordInput}>
                                 <input
@@ -100,18 +149,18 @@ const Login: React.FC = () => {
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     aria-label="Toggle confirm password visibility"
                                 >
-                                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                             </div>
                         </>
                     ) : (
                         <div className={styles.passwordInput}>
                             <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
                             />
                             <button
                                 type="button"
@@ -119,7 +168,7 @@ const Login: React.FC = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label="Toggle password visibility"
                             >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </button>
                         </div>
                     )}
