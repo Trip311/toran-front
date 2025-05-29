@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './ShiftSwitcher.module.scss';
 import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
