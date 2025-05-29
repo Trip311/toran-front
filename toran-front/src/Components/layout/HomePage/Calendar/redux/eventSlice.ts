@@ -51,6 +51,29 @@ export const deleteEvent = createAsyncThunk(
     }
 )
 
+export const updateEventsByGroup = createAsyncThunk(
+    'events/updateEventsByGroup',
+    async ({ groupId, event }: { groupId: string; event: Partial<IEvent> }, { rejectWithValue }) => {
+        if (localStorage.getItem('username') === 'guest') {
+            return rejectWithValue('Guest users cannot update group events');
+        }
+        const response = await axios.put(`${API_URL}/group/${groupId}`, event);
+        return response.data;
+    }
+);
+
+export const deleteEventsByGroup = createAsyncThunk(
+    'events/deleteEventsByGroup',
+    async (groupId: string, { rejectWithValue }) => {
+        if (localStorage.getItem('username') === 'guest') {
+            return rejectWithValue('Guest users cannot delete group events');
+        }
+        await axios.delete(`${API_URL}/group/${groupId}`);
+        return groupId;
+    }
+);
+
+
 const eventSlice = createSlice({
     name: 'events',
     initialState: {
@@ -92,7 +115,16 @@ const eventSlice = createSlice({
             .addCase(deleteEvent.rejected, (state, action) => {
                 state.error = action.payload as string || "Failed to delete event";
             })
-    }
+            .addCase(updateEventsByGroup.fulfilled, (state, action) => {
+                for (const updatedEvent of action.payload) {
+                    const index = state.events.findIndex((e) => e.id === updatedEvent.id);
+                    if (index !== -1) state.events[index] = updatedEvent;
+                }
+            })
+            .addCase(deleteEventsByGroup.fulfilled, (state, action) => {
+                state.events = state.events.filter((e) => String(e.repeatGroupId) !== String(action.payload));
+            })
+        }
 })
 
 export default eventSlice.reducer;
