@@ -87,10 +87,11 @@ const Signup: React.FC = () => {
                             className={styles.eyeButton}
                             onClick={() => setShowPassword(!showPassword)}
                             aria-label="Toggle password visibility"
+                            tabIndex={-1}
                         >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </button>
-                    </div>
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
 
                     {isPasswordFocused && (
                         <div className={styles.passwordValidator}>
