@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styles from './signup.module.scss';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaEye, FaEyeSlash,FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-
+import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 const Signup: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -18,11 +17,24 @@ const Signup: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const hasMinLength = password.length >= 6;
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    const isPasswordValid = hasMinLength && hasUppercase && hasLowercase && hasSpecialChar;
+    // ✅ Use useMemo to memoize password checks
+    const passwordChecks = useMemo(() => {
+        return {
+            hasMinLength: password.length >= 6,
+            hasUppercase: /[A-Z]/.test(password),
+            hasLowercase: /[a-z]/.test(password),
+            hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+        };
+    }, [password]);
+
+    const isPasswordValid = useMemo(() => {
+        return (
+            passwordChecks.hasMinLength &&
+            passwordChecks.hasUppercase &&
+            passwordChecks.hasLowercase &&
+            passwordChecks.hasSpecialChar
+        );
+    }, [passwordChecks]);
 
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,7 +45,7 @@ const Signup: React.FC = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/signup', {
+            await axios.post('http://localhost:5000/api/auth/signup', {
                 username,
                 password,
                 dateOfBirth,
@@ -79,24 +91,25 @@ const Signup: React.FC = () => {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
-                   {isPasswordFocused && (
-                    <div className={styles.passwordValidator}>
-                        <p>Password must include:</p>
-                        <ul>
-                            <li>
-     	                        {hasMinLength ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} Minimum 6 characters
-                            </li>
-                            <li>
-      	                        {hasUppercase ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One lowercase letter
-                            </li>
-                            <li>
-       	                        {hasLowercase ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One uppercase letter
-                            </li>
-                            <li>
-                                {hasSpecialChar ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One special character
-                            </li>
-                        </ul>
-                    </div>
+
+                    {isPasswordFocused && (
+                        <div className={styles.passwordValidator}>
+                            <p>Password must include:</p>
+                            <ul>
+                                <li>
+                                    {passwordChecks.hasMinLength ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} Minimum 6 characters
+                                </li>
+                                <li>
+                                    {passwordChecks.hasLowercase ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One lowercase letter
+                                </li>
+                                <li>
+                                    {passwordChecks.hasUppercase ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One uppercase letter
+                                </li>
+                                <li>
+                                    {passwordChecks.hasSpecialChar ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />} One special character
+                                </li>
+                            </ul>
+                        </div>
                     )}
 
                     <label>Date of birth:</label>
