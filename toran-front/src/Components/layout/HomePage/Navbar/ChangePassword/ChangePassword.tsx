@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import styles from './ChangePassword.module.scss';
 import { FaSave } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -39,7 +40,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) =>
         }
     };
 
-    return (
+    return ReactDOM.createPortal(
         <div className={styles.helpscreen}>
             <div className={styles.helpcontent}>
                 <h2 className={styles.helptitle}>Change password:</h2>
@@ -62,7 +63,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) =>
                 </button>
                 <button className={styles.closebutton} onClick={onClose}>X</button>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

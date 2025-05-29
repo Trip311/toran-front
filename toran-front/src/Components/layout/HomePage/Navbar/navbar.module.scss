@@ -1,97 +1,113 @@
-
-
-@use '../../../../variables' as vars;
+$background-blur: blur(8px);
+$glass-bg: rgba(255, 255, 255, 0.15);
+$glass-border: rgba(255, 255, 255, 0.2);
+$primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
+$secondary-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+$font-main: 'Inter', sans-serif;
 
 .sidenavbar {
-    height: 100vh;
-    width: 16rem;
-    background-color: #1f2937;
-    color: white;
+  height: 100vh;
+  width: 16rem;
+  background: $glass-bg;
+  backdrop-filter: $background-blur;
+  border-right: 1px solid $glass-border;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
+  font-family: $font-main;
+  user-select: none;
+
+  .logosection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    border-bottom: 1px solid $glass-border;
+    background: $primary-gradient;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .navoptions {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
     flex-direction: column;
-    box-shadow: 4px 0 12px rgba(0,0,0,0.3);
-    font-family: 'Segoe UI, Tahoma, Geneva, Verdana, sans-sherif';
+    gap: 1rem;
 
-    .logosection {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 5rem;
-        border-bottom: 1px solid #374151;
+    .navitem {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease, color 0.3s ease;
 
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #e1e4e7;
+      &:hover {
+        background: $secondary-gradient;
+        color: #1a1a1a;
+        svg {
+          color: #1a1a1a;
+          filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
         }
+      }
+
+      svg {
+        color: #d1d5db;
+        transition: color 0.3s ease;
+      }
+
+      span {
+        font-size: 1rem;
+      }
     }
-
-    .navoptions {
-        flex: 1;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-
-        .navitem {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            background-color: transparent;
-            transition: background-color 0.3 ease;
-            cursor: pointer;
-
-            &:hover {
-                background-color: #374151;
-            }
-
-            svg {
-                color: #9ca3af;
-            }
-
-            span {
-                font-size: 1rem;
-                font-weight: 500;
-
-            }
-        }
-    }
+  }
 }
 
 .settingsubmenu {
-    margin-left: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-    .submenuitem {
-        padding: 0.5rem;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        font-size: 0.95rem;
-        transition: 0.2s;
+  .submenuitem {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 
-        &:hover {
-            background-color: #4b5563;
-        }
+    &:hover {
+      background: $secondary-gradient;
+      color: #1a1a1a;
+      font-weight: 700;
     }
+  }
 }
 
 .footer {
-    padding: 1rem;
-    border-top: 1px solid #374151;
-    font-size: 0.85rem;
-    color: #9ca3af;
-    text-align: center;
-    margin-top: auto;
+  padding: 1rem;
+  border-top: 1px solid $glass-border;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-top: auto;
 
-    p {
-        margin: 0.25rem;
-    }
-    strong {
-        color: white;
-        font-weight: 600;
-    }
+  p {
+    margin: 0.25rem;
+  }
+
+  strong {
+    color: white;
+    font-weight: 700;
+  }
 }
-
