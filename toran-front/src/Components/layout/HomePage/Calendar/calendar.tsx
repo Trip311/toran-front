@@ -71,7 +71,7 @@ const MyCalendar: React.FC = () => {
     };
 
     const eventStyleGetter = (event: IEvent) => {
-        const backgroundColor = event.type === "jira" ? "#add8e6" : "#90EE90";
+        const backgroundColor = event.type === "jira" ? "#3b82f6" : "#10b981";
         return {
             style: {
                 backgroundColor,
@@ -124,6 +124,12 @@ const MyCalendar: React.FC = () => {
             </div>
         </div>
     );
+    
+
+    
+
 };
 
 export default MyCalendar;
+
+
