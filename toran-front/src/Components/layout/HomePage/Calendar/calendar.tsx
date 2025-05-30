@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import type { IEvent } from "../../../../interfaces/event.interface";
 import EventFormModal from "./eventform/eventFormModal";
 import { fetchEvents } from "./redux/eventSlice";
+import DailyNotes from "../DailyNotes/DailyNotes";
 
 const localizer = momentLocalizer(moment);
 
@@ -159,9 +160,27 @@ const MyCalendar: React.FC = () => {
     );
   };
 
+  // Get all notes for the current day
+const notesForDay = calendarEvents
+  .filter(ev =>
+    stripTime(ev.startDate).getTime() === stripTime(currentDate).getTime()
+    && ev.note && ev.username
+  )
+  .map(ev => ({
+    user: ev.username,
+    note: ev.note
+  }));
+
 
   return (
-    <div style={{ padding: "30px", flex: 1 }}>
+  <div style={{ padding: "30px", flex: 1 }}>
+    <div style={{
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "stretch",
+      gap: "32px",
+      height: "100%",
+    }}>
       <div
         style={{
           backgroundColor: "#ffffff",
@@ -169,7 +188,9 @@ const MyCalendar: React.FC = () => {
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           padding: "20px",
           height: "95%",
-          width: "93%" // leave that option for notes section
+          width: "93%",
+          minWidth: 0,
+          flex: 1
         }}
       >
         <Calendar
@@ -187,39 +208,41 @@ const MyCalendar: React.FC = () => {
           eventPropGetter={eventStyleGetter}
           min={new Date(1970, 1, 1, 9, 0)}
           max={new Date(1970, 1, 1, 17, 30)}
-  components={{
-    toolbar: CustomToolbar,
-    event: ({ event }) => (
-      <div>
-        <div style={{ fontSize: "0.85rem", color: "black" }}>
-          {event.username}
-        </div>
-        <strong>{event.note}</strong>
-      </div>
-    ),
-    month: {
-      dateHeader: ({ label }: { label: string; }) => (
-        <div
-          style={{
-            color: "black",
-            padding: "4px",
-            fontWeight: 600,
-            fontSize: "0.9rem",
-            textAlign: "right",
+          components={{
+            toolbar: CustomToolbar,
+            event: ({ event }) => (
+              <div>
+                <div style={{ fontSize: "0.85rem", color: "black" }}>
+                  {event.username}
+                </div>
+                <strong>{event.note}</strong>
+              </div>
+            ),
+            month: {
+              dateHeader: ({ label }: { label: string }) => (
+                <div
+                  style={{
+                    color: "black",
+                    padding: "4px",
+                    fontWeight: 600,
+                    fontSize: "0.9rem",
+                    textAlign: "right",
+                  }}
+                >
+                  {label}
+                </div>
+              ),
+            },
           }}
-        >
-          {label}
-        </div>
-      ),
-    },
-  }}
-/>
+        />
         {modalOpen && (
           <EventFormModal onClose={closeModal} slotInfo={slotInfo} event={selectedEvent} />
         )}
       </div>
+      <DailyNotes notes={notesForDay} />
     </div>
-  );
+  </div>
+);
 };
 
 export default MyCalendar;
