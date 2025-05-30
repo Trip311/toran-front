@@ -1,0 +1,42 @@
+// DailyNotes.scss
+.daily-notes {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', sans-serif;
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 1rem;
+      line-height: 1.4;
+
+      .user {
+        font-weight: bold;
+        color: white;
+        margin-right: 0.5rem;
+      }
+
+      .note {
+        color: rgba(255, 255, 255, 0.85);
+      }
+    }
+  }
+}
