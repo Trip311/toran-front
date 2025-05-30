@@ -7,6 +7,7 @@ import { fetchUsers } from '../../Calendar/redux/userSlice';
 import { addRequest } from '../../Calendar/redux/requestSlice';
 import { ShiftSwitcherProps } from '../../../../../interfaces/shiftswitch.props';
 import { IRequest } from '../../../../../interfaces/request.interface';
+import ReactDOM from 'react-dom';
 
 type ShiftType = 'jira' | 'kitchen';
 
@@ -82,7 +83,7 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
     onClose();
   };
 
-  return (
+  return ReactDOM.createPortal(
     <div className={styles.shiftSwitcherContainer}>
       <h2>Switch Shifts</h2>
       <form onSubmit={handleSubmit}>
@@ -145,7 +146,8 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
           <button type="button" onClick={onClose}>Cancel</button>
         </div>
       </form>
-    </div>
+    </div>,
+    document.body
   );
 };
 
