@@ -106,6 +106,7 @@ const Login: React.FC = () => {
                                     required
                                 />
                                 <button
+                                    type='button'
                                     className={styles.eyeButton}
                                     onClick={() => setShowNewPassword(!showNewPassword)}
                                     aria-label="Toggle new password visibility"
@@ -144,6 +145,7 @@ const Login: React.FC = () => {
                                     required
                                 />
                                 <button
+                                    type='button'
                                     className={styles.eyeButton}
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     aria-label="Toggle confirm password visibility"
@@ -162,6 +164,7 @@ const Login: React.FC = () => {
                                 required
                             />
                             <button
+                                type='button'
                                 className={styles.eyeButton}
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label="Toggle password visibility"
@@ -170,8 +173,8 @@ const Login: React.FC = () => {
                             </button>
                         </div>
                     )}
-                    <button type="submit">{isForgotMode ? 'Reset Password' : 'Login'}</button>
-                    <button type="button" onClick={() => navigate('/')}>Back</button>
+                    <button type="submit" className={styles.actionButton}>{isForgotMode ? 'Reset Password' : 'Login'}</button>
+                    <button type="button" className={styles.actionButton} onClick={() => navigate('/')}>Back</button>
                 </form>
                 <p className={styles.forgotLink} onClick={() => setIsForgotMode(!isForgotMode)}>
                     {isForgotMode ? '← Back to Login' : 'Forgot Password?'}
