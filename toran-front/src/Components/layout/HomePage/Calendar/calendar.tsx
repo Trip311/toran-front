@@ -128,7 +128,9 @@ const MyCalendar: React.FC = () => {
           style={{
             fontSize: "1.5rem",
             fontWeight: 600,
-            color: "white",
+            color: "#1e3a8a", // deep blue
+            fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+            letterSpacing: "0.5px",
             flexGrow: 1,
             textAlign: "center",
             minWidth: "180px",
@@ -156,6 +158,7 @@ const MyCalendar: React.FC = () => {
     );
   };
 
+
   return (
     <div style={{ padding: "30px", flex: 1 }}>
       <div
@@ -182,29 +185,33 @@ const MyCalendar: React.FC = () => {
           eventPropGetter={eventStyleGetter}
           min={new Date(1970, 1, 1, 9, 0)}
           max={new Date(1970, 1, 1, 17, 30)}
-          components={{
-            toolbar: CustomToolbar,
-            event: ({ event }) => (
-              <div>
-                <div style={{ fontSize: "0.85rem", color: "black" }}>
-                  {event.username}
-                </div>
-                <strong>{event.note}</strong>
-              </div>
-            ),
-            header: ({ label }) => (
-              <div
-                style={{
-                  color: "black",
-                  padding: "8px",
-                  textAlign: "center",
-                }}
-              >
-                {label}
-              </div>
-            ),
+  components={{
+    toolbar: CustomToolbar,
+    event: ({ event }) => (
+      <div>
+        <div style={{ fontSize: "0.85rem", color: "black" }}>
+          {event.username}
+        </div>
+        <strong>{event.note}</strong>
+      </div>
+    ),
+    month: {
+      dateHeader: ({ label, date }: { label: string; date: Date }) => (
+        <div
+          style={{
+            color: "#1e3a8a",
+            padding: "4px",
+            fontWeight: 600,
+            fontSize: "0.9rem",
+            textAlign: "right",
           }}
-        />
+        >
+          {label}
+        </div>
+      ),
+    },
+  }}
+/>
         {modalOpen && (
           <EventFormModal onClose={closeModal} slotInfo={slotInfo} event={selectedEvent} />
         )}
