@@ -24,8 +24,8 @@ $font-main: 'Inter', sans-serif;
     justify-content: center;
     height: 5rem;
     border-bottom: 1px solid $glass-border;
-    background: $primary-gradient;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    background: transparent;
+    // box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     h1 {
       font-size: 1.75rem;
       font-weight: 700;
@@ -53,10 +53,8 @@ $font-main: 'Inter', sans-serif;
       transition: background 0.3s ease, color 0.3s ease;
 
       &:hover {
-        background: $secondary-gradient;
-        color: #1a1a1a;
+        background: rgba(255, 255, 255, 0.1);
         svg {
-          color: #1a1a1a;
           filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
         }
       }
@@ -87,9 +85,8 @@ $font-main: 'Inter', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
 
     &:hover {
-      background: $secondary-gradient;
-      color: #1a1a1a;
-      font-weight: 700;
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 100;
     }
   }
 }

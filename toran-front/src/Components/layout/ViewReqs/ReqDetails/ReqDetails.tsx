@@ -48,7 +48,7 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
         id: fromEvent.id,
         event: {
           username: request.toUser,
-          title: request.toUser,
+          note: request.toUser,
           type: request.shiftType,
           startDate: fromEvent.startDate,
           endDate: fromEvent.endDate,
@@ -59,7 +59,7 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
         id: toEvent.id,
         event: {
           username: request.fromUser,
-          title: request.fromUser,
+          note: request.fromUser,
           type: request.shiftType,
           startDate: toEvent.startDate,
           endDate: toEvent.endDate,

@@ -133,7 +133,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
                     <label>Repeat</label>
                     <select value={repeat} onChange={(e) => setRepeat(e.target.value as any)}>
                         <option value="none">Daily</option>
-                        <option value="daily">Weekly (1 weeks)</option>
+                        <option value="daily">Week (1 full week)</option>
                         <option value="weekly-2">Weekly (2 weeks)</option>
                         <option value="weekly-3">Weekly (3 weeks)</option>
                         <option value="monthly">Monthly</option>
