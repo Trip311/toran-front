@@ -169,6 +169,7 @@ const MyCalendar: React.FC = () => {
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           padding: "20px",
           height: "95%",
+          // width: "80%" // leave that option for notes section
         }}
       >
         <Calendar
