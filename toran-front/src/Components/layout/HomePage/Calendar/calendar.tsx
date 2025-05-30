@@ -107,6 +107,8 @@ const MyCalendar: React.FC = () => {
                     onSelectSlot={handleSelectSlot}
                     onSelectEvent={handleSelectEvent}
                     eventPropGetter={eventStyleGetter}
+                    min={new Date(1970, 1, 1, 9, 0)}     // 09:00
+                    max={new Date(1970, 1, 1, 17, 30)}   // 17:30
                     components={{
                         event: ({ event }) => (
                             <div>

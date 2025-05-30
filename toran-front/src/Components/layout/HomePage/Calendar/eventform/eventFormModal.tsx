@@ -24,7 +24,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
     const startDate = new Date(event?.startDate || slotInfo?.start);
     const endDate = new Date(event?.endDate || slotInfo?.end);
 
-    startDate.setHours(0, 0, 0, 0);
+    startDate.setHours(9, 0, 0, 0);
     endDate.setFullYear(startDate.getFullYear());
     endDate.setMonth(startDate.getMonth());
     endDate.setDate(startDate.getDate());
@@ -78,7 +78,7 @@ const EventFormModal: React.FC<Props> = ({ onClose, slotInfo, event }) => {
             return;
         }
         const now = new Date();
-        now.setHours(0, 0, 0, 0); // Normalize to start of the day
+        now.setHours(9, 0, 0, 0); // Normalize to start of the day
         if (startDate < now) {
             alert("You cannot create or edit events in the past.");
             return;
