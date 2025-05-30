@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer, View } from "react-big-calendar";
@@ -128,7 +129,7 @@ const MyCalendar: React.FC = () => {
           style={{
             fontSize: "1.5rem",
             fontWeight: 600,
-            color: "#1e3a8a", // deep blue
+            color: "#0f0f0f", // deep blue
             fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
             letterSpacing: "0.5px",
             flexGrow: 1,
@@ -196,10 +197,10 @@ const MyCalendar: React.FC = () => {
       </div>
     ),
     month: {
-      dateHeader: ({ label, date }: { label: string; date: Date }) => (
+      dateHeader: ({ label }: { label: string; }) => (
         <div
           style={{
-            color: "#1e3a8a",
+            color: "black",
             padding: "4px",
             fontWeight: 600,
             fontSize: "0.9rem",

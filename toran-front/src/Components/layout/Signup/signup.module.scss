@@ -1,12 +1,14 @@
-$primary-gradient: linear-gradient(to right, #667eea, #764ba2);
-$secondary-gradient: linear-gradient(to right, #89f7fe, #66a6ff);
-$glass-bg: rgba(255, 255, 255, 0.15);
-$glass-border: rgba(255, 255, 255, 0.3);
-$input-text-color: white;
-$input-placeholder-color: rgba(255, 255, 255, 0.7);
+
+
+$primary-gradient: linear-gradient(to right, #1e3a8a, #4c1d95); // Deep blue to violet
+$secondary-gradient: linear-gradient(to right, #0ea5e9, #6366f1); // Aqua to indigo
+$glass-bg: rgba(17, 24, 39, 0.7); // Deep glass
+$glass-border: rgba(255, 255, 255, 0.08);
+$input-text-color: #f8fafc;
+$input-placeholder-color: rgba(255, 255, 255, 0.5);
 
 .container {
-  background-image: $primary-gradient;
+  background-image: linear-gradient(135deg, #0f172a, #1e293b);
   background-size: cover;
   background-position: center;
   width: 100vw;
@@ -14,38 +16,39 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
 }
 
 .signupBox {
-  backdrop-filter: blur(15px);
-  background-color: $glass-bg;
+  backdrop-filter: blur(20px);
+  background-color: rgba(30, 41, 59, 0.75);
   border: 1px solid $glass-border;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   color: $input-text-color;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   min-width: 350px;
 
   h2 {
-    margin-bottom: 1rem;
-    background: $secondary-gradient;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    color: #e2e8f0;
   }
 
   form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
     width: 100%;
 
     label {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 0.95rem;
     }
 
@@ -53,10 +56,10 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
     input[type="password"],
     input[type="date"] {
       width: 100%;
-      padding: 0.6rem 0.75rem;
+      padding: 0.65rem 0.9rem;
       border: none;
-      border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.08);
       color: $input-text-color;
       font-size: 1rem;
       outline: none;
@@ -68,53 +71,48 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
       }
 
       &:focus {
-        box-shadow: 0 0 0 2px $glass-border;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4); // Indigo focus
       }
     }
 
     .passwordInput {
-        position: relative;
-        width: 100%;
+      position: relative;
+      width: 100%;
 
+      input {
+        padding-right: 2.5rem;
+        display: block;
+      }
 
-  input {
-    padding-right: 2.5rem;
-    width: 100%;
-    box-sizing: border-box;
-    display: block; // Space for the eye icon
-  }
+      .eyeButton {
+        position: absolute;
+        top: 75%;
+        right: -45%;
 
-  .eyeButton {
-    position: absolute;
-    top: 75%;
-    right: -45%;
-
-    transform: translateY(-55%);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: white;
-    font-size: 1.2rem;
-    padding: 0;
-
-
-    &:hover {
-      color: lighten(white, 10%);
+        transform: translateY(-55%);
+        border: none;
+        cursor: pointer;
+        color: white;
+        font-size: 1.2rem;
+        padding: 0;
+        &:hover {
+          color: lighten(white, 10%);
+        }
+      }
+      
     }
-  }
-}
 
     .passwordValidator {
-      background-color: rgba(255, 255, 255, 0.15);
+      background-color: rgba(255, 255, 255, 0.08);
       border: 1px solid $glass-border;
       border-radius: 12px;
       padding: 12px 16px;
-      font-size: 0.9rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      color: white;
+      font-size: 0.85rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+      color: $input-text-color;
 
       p {
-        font-weight: bold;
+        font-weight: 600;
         margin-bottom: 0.5rem;
       }
 
@@ -128,6 +126,10 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
           align-items: center;
           gap: 8px;
           margin: 6px 0;
+
+          svg {
+            color: #10b981; // Emerald green for valid
+          }
         }
       }
     }
@@ -138,10 +140,11 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
       gap: 1rem;
       border: none;
       padding: 0;
+      margin: 0;
 
       legend {
         font-size: 0.95rem;
-        font-weight: bold;
+        font-weight: 600;
         margin-bottom: 0.5rem;
       }
 
@@ -154,7 +157,7 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
       }
 
       input[type="radio"] {
-        accent-color: white;
+        accent-color: #818cf8; // Soft indigo
       }
     }
 
@@ -165,19 +168,26 @@ $input-placeholder-color: rgba(255, 255, 255, 0.7);
       border-radius: 10px;
       background-image: $secondary-gradient;
       color: white;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: all 0.3s ease;
 
-      &:hover {
-        transform: scale(1.02);
-      }
+      // &:hover {
+      //   transform: translateY(-2px);
+      //   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      // }
 
       &:last-child {
         background: transparent;
-        border: 1px solid white;
-        margin-top: -0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #e0e7ff;
+        margin-top: -0.25rem;
+
+        // &:hover {
+        //   background-color: rgba(255, 255, 255, 0.05);
+        // }
       }
     }
   }
 }
+

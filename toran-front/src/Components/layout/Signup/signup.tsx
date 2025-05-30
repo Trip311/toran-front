@@ -17,7 +17,7 @@ const Signup: React.FC = () => {
 
     const navigate = useNavigate();
 
-    // ✅ Use useMemo to memoize password checks
+    // useMemo to memoize password checks
     const passwordChecks = useMemo(() => {
         return {
             hasMinLength: password.length >= 6,
@@ -90,8 +90,8 @@ const Signup: React.FC = () => {
                             tabIndex={-1}
                         >
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </button>
-</div>
+                        </button>
+                    </div>
 
                     {isPasswordFocused && (
                         <div className={styles.passwordValidator}>

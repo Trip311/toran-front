@@ -1,182 +1,198 @@
 
-
 // @use '../../../variables' as vars;
 
+// $background-blur: blur(8px);
+// $glass-bg: rgba(255, 255, 255, 0.15);
+// $glass-border: rgba(255, 255, 255, 0.2);
+// $primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
+// $secondary-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+// $font-main: 'Inter', sans-serif;
+
 // .container {
-//     background: vars.$background-image;
-//     background-position: vars.$background-position;
-//     width: vars.$background-width;
-//     height: vars.$background-height;
-//     text-align: center;
+//   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//   background-position: center;
+//   background-size: cover;
+//   width: 100vw;
+//   height: 100vh;
+//   text-align: center;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   position: relative;
+//   font-family: $font-main;
+
+//   .btnhelp {
+//     position: fixed;
+//     top: 20px;
+//     left: 20px;
+//     font-size: 24px;
+//     padding: 0.75rem;
+//     background: $secondary-gradient;
+//     color: white;
+//     border: none;
+//     border-radius: 50%;
+//     cursor: pointer;
+//     font-weight: bold;
+//     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+//     transition: background 0.3s ease;
+
+//     &:hover {
+//       background: darken(#fda085, 10%);
+//     }
+//   }
+
+//   .helpscreen {
+//     position: fixed;
+//     inset: 0;
+//     background-color: rgba(0, 0, 0, 0.5);
+//     backdrop-filter: $background-blur;
 //     display: flex;
-//     flex-direction: column;
 //     justify-content: center;
 //     align-items: center;
+//   }
 
-
-//     .btnhelp {
-//         position: fixed;
-//         top: 20px;
-//         left: 20px;
-//         font-size: 24px;
-//         padding: 12px;
-//         background-color: #007bff;
-//         color: white;
-//         border: none;
-//         border-radius: 50%;
-//         cursor: pointer;
-//         font-weight: bold;
-//         box-shadow: 0 4px 8px rgba(0,0,0, 0.2);
-//     }
-
-//     .btnhelp:hover {
-//         background-color: #0056b3;
-//     }
-
-
-//     .helpscreen {
-//         position: fixed;
-//         top: 0;
-//         left: 0;
-//         width: 100%;
-//         height: 100%;
-//         background-color: rgba(0,0,0, 0.5);
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//     }
-
-//     .helpcontent {
-//         background-color: white;
-//         padding: 20px;
-//         border-radius: 8px;
-//         text-align: center;
-//         width: 300px;
-//         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-//     }
+//   .helpcontent {
+//     background: $glass-bg;
+//     border: 1px solid $glass-border;
+//     padding: 2rem;
+//     border-radius: 1.5rem;
+//     width: 90%;
+//     max-width: 400px;
+//     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+//     color: white;
+//     text-align: left;
+//     position: relative;
 
 //     .helptitle {
-//         font-family: 'Segoe UI', sans-serif;
-//         font-size: 24px;
-//         font-weight: 600;
-//         color: black;
-//         margin-bottom: 16px;
-//         border-bottom: 2px solid black;
-//         padding-bottom: 4px;
+//       font-size: 2rem;
+//       font-weight: 700;
+//       margin-bottom: 1rem;
+//       border-bottom: 2px solid white;
+//       padding-bottom: 0.5rem;
 //     }
 
-//     .helpcontent p {
-//         font-family: 'Arial', 'sans-serif';
-//         font-size: 18px;
-//         line-height: 1.6;
-//         color: #333333;
-//         margin-bottom: 20px;
+//     p {
+//       font-size: 1.1rem;
+//       line-height: 1.6;
+//       margin-bottom: 1rem;
 //     }
 
-//     .helpcontent p.superuser-note {
-//         font-weight: 600;
-//         color: #b22222; // dark red for emphasis
-//         margin-top: 10px;
+//     p.superuser-note {
+//       font-weight: bold;
+//       color: #ff4d4f;
 //     }
 
 //     .closebutton {
-//         position: absolute;
-//         top: 10px;
-//         right: 10px;
-//         width: 36px;
-//         height: 36px;
-//         font-size: 22px;
-//         background-color: #c92f2f;
-//         border: none;
-//         color: #e4dcdc;
-//         box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-//         display: flex;
-//         align-items: center;
-//         justify-content: center;
-//         transition: background-color 0.3s ease, transform 0.2 ease;
-//         cursor: pointer;
+//       position: absolute;
+//       top: 10px;
+//       right: 10px;
+//       width: 32px;
+//       height: 32px;
+//       background-color: rgba(255, 255, 255, 0.2);
+//       border: none;
+//       color: white;
+//       font-size: 1.25rem;
+//       border-radius: 50%;
+//       cursor: pointer;
+//       transition: all 0.3s ease;
+
+//       &:hover {
+//         background-color: rgba(255, 255, 255, 0.4);
+//       }
+//     }
+//   }
+
+//   .title {
+//     font-size: 6rem;
+//     font-weight: 900;
+//     color: white;
+//     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+//     margin-bottom: 2rem;
+//   }
+
+//   .toggleButtons {
+//     display: flex;
+//     gap: 1.5rem;
+//     justify-content: center;
+
+//     button[datatype='btn-login'],
+//     button[datatype='btn-signup'] {
+//       @include vars.button-with-icon('../../../assets/icon_login.png');
+//       background: $primary-gradient;
+//       border: none;
+//       padding: 1rem 2rem;
+//       font-size: 1.5rem;
+//       border-radius: 12px;
+//       transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+//       &:hover {
+//         transform: translateY(-2px);
+//         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+//       }
 //     }
 
-//     .closebutton:hover {
-//         color: #d8cccc;
+//     button[datatype='btn-signup'] {
+//       @include vars.button-with-icon('../../../assets/icon_signup.png');
+//       background: $secondary-gradient;
 //     }
-
-//     .title {
-//         font-size: 8rem;
-//         font-weight: bold;
-//         color: white;
-//         text-shadow: 2px 2px 4px rgba(0,0,0, 0.7);
-//     }
-    
-//     .toggleButtons {
-
-//         margin-bottom: 2rem;
-
-//         button[datatype="btn-login"] {
-//             @include vars.button-with-icon('../../../assets/icon_login.png')
-//         }
-//         button[datatype="btn-signup"] {
-//             @include vars.button-with-icon('../../../assets/icon_signup.png')
-//         }
-//     }
-    
-
-
-
+//   }
 // }
 
 
 @use '../../../variables' as vars;
 
-$background-blur: blur(8px);
-$glass-bg: rgba(255, 255, 255, 0.15);
-$glass-border: rgba(255, 255, 255, 0.2);
-$primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
-$secondary-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+$background-blur: blur(14px);
+$glass-bg: rgba(25, 25, 35, 0.7);
+$glass-border: rgba(255, 255, 255, 0.08);
+$primary-gradient: linear-gradient(135deg, #1e3a8a, #312e81);
+$secondary-gradient: linear-gradient(135deg, #f43f5e, #8b5cf6);
 $font-main: 'Inter', sans-serif;
 
 .container {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  background-position: center;
+  background: linear-gradient(135deg, #111827, #1e293b);
   background-size: cover;
   width: 100vw;
   height: 100vh;
-  text-align: center;
+  font-family: $font-main;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  font-family: $font-main;
+  text-align: center;
+  overflow: hidden;
 
   .btnhelp {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    font-size: 24px;
+    top: 24px;
+    left: 24px;
+    font-size: 1.5rem;
     padding: 0.75rem;
     background: $secondary-gradient;
     color: white;
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-    transition: background 0.3s ease;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, background 0.3s ease;
 
     &:hover {
-      background: darken(#fda085, 10%);
+      background: darken(#f43f5e, 8%);
+      transform: scale(1.05);
     }
   }
 
   .helpscreen {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: $background-blur;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
   }
 
   .helpcontent {
@@ -185,38 +201,39 @@ $font-main: 'Inter', sans-serif;
     padding: 2rem;
     border-radius: 1.5rem;
     width: 90%;
-    max-width: 400px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-    color: white;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    color: #f1f5f9;
     text-align: left;
     position: relative;
 
     .helptitle {
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 1.75rem;
+      font-weight: 800;
       margin-bottom: 1rem;
-      border-bottom: 2px solid white;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
       padding-bottom: 0.5rem;
     }
 
     p {
-      font-size: 1.1rem;
+      font-size: 1rem;
       line-height: 1.6;
       margin-bottom: 1rem;
+      color: #e2e8f0;
     }
 
     p.superuser-note {
-      font-weight: bold;
-      color: #ff4d4f;
+      font-weight: 700;
+      color: #f87171;
     }
 
     .closebutton {
       position: absolute;
       top: 10px;
       right: 10px;
-      width: 32px;
-      height: 32px;
-      background-color: rgba(255, 255, 255, 0.2);
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.1);
       border: none;
       color: white;
       font-size: 1.25rem;
@@ -225,16 +242,17 @@ $font-main: 'Inter', sans-serif;
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.4);
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
       }
     }
   }
 
   .title {
-    font-size: 6rem;
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 900;
-    color: white;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: #f8fafc;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
     margin-bottom: 2rem;
   }
 
@@ -242,6 +260,7 @@ $font-main: 'Inter', sans-serif;
     display: flex;
     gap: 1.5rem;
     justify-content: center;
+    flex-wrap: wrap;
 
     button[datatype='btn-login'],
     button[datatype='btn-signup'] {
@@ -250,12 +269,15 @@ $font-main: 'Inter', sans-serif;
       border: none;
       padding: 1rem 2rem;
       font-size: 1.5rem;
+      font-weight: 600;
       border-radius: 12px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
 
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
       }
     }
 

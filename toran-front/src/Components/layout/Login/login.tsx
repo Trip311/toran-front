@@ -106,10 +106,10 @@ const Login: React.FC = () => {
                                     required
                                 />
                                 <button
-                                    type="button"
                                     className={styles.eyeButton}
                                     onClick={() => setShowNewPassword(!showNewPassword)}
                                     aria-label="Toggle new password visibility"
+                                    tabIndex={-1}
                                 >
                                     {showNewPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
@@ -144,7 +144,6 @@ const Login: React.FC = () => {
                                     required
                                 />
                                 <button
-                                    type="button"
                                     className={styles.eyeButton}
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     aria-label="Toggle confirm password visibility"
@@ -163,7 +162,6 @@ const Login: React.FC = () => {
                                 required
                             />
                             <button
-                                type="button"
                                 className={styles.eyeButton}
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label="Toggle password visibility"
