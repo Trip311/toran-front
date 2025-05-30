@@ -1,5 +1,5 @@
 
-
+@use '../../../variables' as vars;
 
 .notadmincontainer {
   height: 100vh;
@@ -64,7 +64,10 @@
 
 
 .viewreqscontainer {
-  background-color: #2c2f48;
+  background: #2c2f48;
+  background-position: vars.$background-position;
+  width: vars.$background-width;
+  height: vars.$background-height;
   display: flex;
 }
 

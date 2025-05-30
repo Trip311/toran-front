@@ -51,11 +51,11 @@
             background-color: gray;
 
             &.primary {
-                background-color: #007bff;
+                background: linear-gradient(to right, #6a11cb, #2575fc);
             }
 
             &.danger {
-                background-color: #dc3545;
+                background: #ff6b6b;
             }
         }
     }
