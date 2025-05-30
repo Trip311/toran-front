@@ -64,11 +64,13 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        // transition: background-color 0.3s ease;
+
 
         &:first-child {
-          background-color: #007bff;
+          background: linear-gradient(to right, #6a11cb, #2575fc);
           color: white;
+          
 
           &:hover {
             background-color: #0056b3;
@@ -76,7 +78,7 @@
         }
 
         &:last-child {
-          background-color: #6c757d;
+          background: linear-gradient(to right, #444, #999);
           color: white;
 
           &:hover {
