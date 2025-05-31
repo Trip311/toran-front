@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ChangePassword from './ChangePassword/ChangePassword';
 import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
 import { useAppSelector, useAppDispatch } from '../Calendar/redux/hooks';
-import { fetchRequests } from '../Calendar/redux/requestSlice';
+import { fetchRequests, fetchEmptyRequests } from '../Calendar/redux/requestSlice';
 
 
 
@@ -21,13 +21,17 @@ const Navbar: React.FC = () => {
     const [showSwitchShifts, setShowSwitchShifts] = useState(false);
     const dispatch = useAppDispatch();
     const requests = useAppSelector((state) => state.request.requests);
+    
 
 
     
     useEffect(() => {
-    if (storedUsername && storedUsername !== 'guest') {
+    if (storedUsername !== 'Admin' && storedUsername !== 'guest') {
+        dispatch(fetchEmptyRequests());
+    } else {
         dispatch(fetchRequests());
     }
+
     }, [dispatch, storedUsername]);
     
 
@@ -62,6 +66,10 @@ const Navbar: React.FC = () => {
     const handleViewRequests = () => {
         navigate('/requests');
     }
+
+    const fullReqs = requests.filter(
+        req => !!req.toUser && !!req.toDate
+    );
 
     const pendingRequests = requests.filter(
         req => (!req.toUser || req.toUser === "") && (!req.toDate || req.toDate === "")
@@ -110,8 +118,8 @@ const Navbar: React.FC = () => {
                     <div className={styles.navitem} onClick={handleViewRequests}>
                         <FaListAlt size={20} />
                         <span>Approve Shift Requests</span>
-                        {requests.length > 0 && (
-                            <span className={styles.badge}>{requests.length}</span>
+                        {fullReqs.length > 0 && (
+                            <span className={styles.badge}>{fullReqs.length}</span>
                     )}
                     </div>
                 )}

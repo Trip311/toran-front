@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './ViewReqs.module.scss'; // Optional: For custom styling
 import { useAppDispatch, useAppSelector } from '../../layout/HomePage/Calendar/redux/hooks';
-import { fetchRequests } from "../HomePage/Calendar/redux/requestSlice";
+import { fetchRequests, fetchEmptyRequests } from "../HomePage/Calendar/redux/requestSlice";
 
 import ReqDetails from './ReqDetails/ReqDetails'
 
@@ -18,7 +18,11 @@ const ViewReqs: React.FC = () => {
 
 
   useEffect(() => {
-    dispatch(fetchRequests());
+    if (username !== 'Admin' && username !== 'guest') {
+      dispatch(fetchEmptyRequests());
+    } else if (username === 'Admin') {
+      dispatch(fetchRequests());
+    }
   }, [dispatch]);
 
   
@@ -39,10 +43,13 @@ const ViewReqs: React.FC = () => {
     );
   }
   else if (username === 'Admin') {
+    const fullReqs = pendingReqs.filter(
+    req => !!req.toUser && !!req.toDate
+    );
     return (
       <div className={styles.viewreqscontainer}>
         <div className={styles.reqListWrapper}>
-          {pendingReqs.map(req => (
+          {fullReqs.map(req => (
             <ReqDetails
               currentUser={username ?? ''}
               key={req.id}

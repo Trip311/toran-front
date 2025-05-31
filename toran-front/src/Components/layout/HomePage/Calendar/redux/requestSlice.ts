@@ -37,6 +37,14 @@ export const updateRequest = createAsyncThunk(
     }
 );
 
+export const fetchEmptyRequests = createAsyncThunk(
+    'requests/fetchEmptyRequests',
+    async () => {
+        const response = await axios.get(`${API_URL}/empty`);
+        return response.data;
+    }
+);
+
 
 
 const requestSlice = createSlice({
@@ -80,8 +88,20 @@ const requestSlice = createSlice({
             })
             .addCase(updateRequest.rejected, (state, action) => {
                 state.error = action.payload as string || "Failed to update request";
+            })
+            // ...existing cases...
+            .addCase(fetchEmptyRequests.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchEmptyRequests.fulfilled, (state, action) => {
+                state.requests = action.payload;
+                state.loading = false;
+            })
+            .addCase(fetchEmptyRequests.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to fetch empty requests";
             });
-    }
+        }
 })
 
 export default requestSlice.reducer;

@@ -1,6 +1,3 @@
-
-
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState, useEffect } from 'react';
 import styles from './ReqDetails.module.scss';
 import { ReqDetailsProps } from '../../../../interfaces/reqdetails.props';
@@ -9,18 +6,17 @@ import { deleteRequest } from '../../HomePage/Calendar/redux/requestSlice';
 import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice';
 import { fetchEvents } from '../../HomePage/Calendar/redux/eventSlice';
 
-const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser,request }) => {
+const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser, request }) => {
   const dispatch = useAppDispatch();
   const allEvents = useAppSelector(state => state.event.events);
   const username = localStorage.getItem('username');
   const [showJoinForm, setShowJoinForm] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
-  dispatch(fetchEvents());
-}, [dispatch]);
-
-  
+    dispatch(fetchEvents());
+  }, [dispatch]);
 
   const getShiftDates = (username: string): string[] => {
     const today = new Date();
@@ -33,8 +29,7 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser,request }) => {
       .map(ev => ev.endDate.split('T')[0]);
   };
 
-
-  const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, username, request.shiftType]);
+  const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, currentUser, request.shiftType]);
 
   const handleDelete = async () => {
     try {
@@ -101,89 +96,112 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser,request }) => {
     }
   };
 
-  const handleJoin = () => {
+  const handleMenuJoin = () => {
+    setShowMenu(false);
     setShowJoinForm(true);
   };
 
   const handleConfirmJoin = async () => {
-
+    // ...your join logic here...
   };
 
+  // Only show menu if request is joinable and not created by the current user
+  const canJoin = !request.toUser && !request.toDate && username && username !== 'guest' && request.fromUser !== username;
+
   return (
-  <div className={styles.reqCard}>
-    {username === 'Admin' ? (
-      <>
-        <p className={styles.reqTitle}>
-          <strong>{request.fromUser}</strong> → <strong>{request.toUser}</strong>
-        </p>
-        <p className={styles.reqDetail}><strong>Shift:</strong> {request.shiftType}</p>
-        <p className={styles.reqDetail}><strong>Date:</strong> {request.fromDate} → {request.toDate}</p>
-        <p className={styles.reqDetail}><strong>Reason:</strong> {request.reason}</p>
-        <div className={styles.reqButtons}>
-          <button className={`${styles.btn} ${styles.approve}`} onClick={handleApprove}>Approve</button>
-          <button className={`${styles.btn} ${styles.decline}`} onClick={handleDelete}>Decline</button>
-        </div>
-      </>
-    ) : (
-      <>
-        <p className={styles.reqTitle}>
-          <strong>{request.fromUser}</strong>
-        </p>
-        <p className={styles.reqDetail}><strong>Shift:</strong> {request.shiftType}</p>
-        <p className={styles.reqDetail}><strong>Date:</strong> {request.fromDate}</p>
-        <p className={styles.reqDetail}><strong>Reason:</strong> {request.reason}</p>
-        <div className={styles.reqButtons}>
-          {(!request.toUser && !request.toDate && username && username !== 'guest') && (
-            <>
-              <button className={`${styles.btn} ${styles.join}`} onClick={handleJoin}>Join</button>
-              {showJoinForm && (
-  <form
-    className={styles.joinForm}
-    onSubmit={e => {
-      e.preventDefault();
-      handleConfirmJoin();
-    }}
-    style={{ marginTop: 12 }}
-  >
-    <div>
-      <label>
-        Your Name:
-        <input type="text" value={username || ''} readOnly style={{ marginLeft: 8 }} />
-      </label>
-    </div>
-    <div style={{ marginTop: 8 }}>
-      <label>
-        Choose Date:
-        <select
-          value={selectedDate}
-          onChange={e => setSelectedDate(e.target.value)}
-          style={{ marginLeft: 8 }}
-          required
-        >
-          <option value="">Select shift date</option>
-          {userShiftDates.map(date => (
-            <option key={date} value={date}>{date}</option>
-          ))}
-        </select>
-      </label>
-    </div>
-    <button
-      type="button"
-      className={styles.btn}
-      style={{ backgroundColor: "#aaa", marginTop: 10 }}
-      onClick={() => setShowJoinForm(false)}
-    >
-      Back
-    </button>
-  </form>
-)}
-            </>
+    <div className={styles.reqCard}>
+      {username === 'Admin' ? (
+        <>
+          <p className={styles.reqTitle}>
+            <strong>{request.fromUser}</strong> → <strong>{request.toUser}</strong>
+          </p>
+          <p className={styles.reqDetail}><strong>Shift:</strong> {request.shiftType}</p>
+          <p className={styles.reqDetail}><strong>Date:</strong> {request.fromDate} → {request.toDate}</p>
+          <p className={styles.reqDetail}><strong>Reason:</strong> {request.reason}</p>
+          <div className={styles.reqButtons}>
+            <button className={`${styles.btn} ${styles.approve}`} onClick={handleApprove}>Approve</button>
+            <button className={`${styles.btn} ${styles.decline}`} onClick={handleDelete}>Decline</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={styles.cardHeader}>
+            <span className={styles.reqTitle}><strong>{request.fromUser}</strong></span>
+            {canJoin && (
+              <div className={styles.menuWrapper}>
+                <button
+                  className={styles.menuBtn}
+                  onClick={() => setShowMenu(m => !m)}
+                  aria-label="Open menu"
+                  type="button"
+                >&#8942;</button>
+                {showMenu && (
+                  <div className={styles.menuDropdown}>
+                    <div className={styles.menuItem} onClick={handleMenuJoin}>Join</div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <div className={styles.detailsSection}>
+            <div className={styles.detailRow}>
+              <span className={styles.detailLabel}>Shift:</span>
+              <span className={styles.detailValue}>{request.shiftType}</span>
+            </div>
+            <div className={styles.detailRow}>
+              <span className={styles.detailLabel}>Date:</span>
+              <span className={styles.detailValue}>{request.fromDate}</span>
+            </div>
+            <div className={styles.detailRow}>
+              <span className={styles.detailLabel}>Reason:</span>
+              <span className={styles.detailValue}>{request.reason}</span>
+            </div>
+          </div>
+          {showJoinForm && (
+            <form
+              className={styles.joinForm}
+              onSubmit={e => {
+                e.preventDefault();
+                handleConfirmJoin();
+              }}
+            >
+              <div className={styles.formTitle}>Join This Shift</div>
+              <hr className={styles.formDivider} />
+              <div className={styles.formField}>
+                <label>Your Name:</label>
+                <input type="text" value={username || ''} readOnly />
+              </div>
+              <div className={styles.formField}>
+                <label>Choose Date:</label>
+                <select
+                  value={selectedDate}
+                  onChange={e => setSelectedDate(e.target.value)}
+                  required
+                >
+                  <option value="">Select shift date</option>
+                  {userShiftDates.map(date => (
+                    <option key={date} value={date}>{date}</option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.formButtons}>
+                <button type="submit" className={styles.btn}>Confirm</button>
+                <button
+                  type="button"
+                  className={styles.btn}
+                  style={{ backgroundColor: "#aaa" }}
+                  onClick={() => setShowJoinForm(false)}
+                >
+                  Back
+                </button>
+              </div>
+            </form>
           )}
-        </div>
-      </>
-    )}
-  </div>
-);
-}
+          <div className={styles.reqButtons}></div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export default ReqDetails;
