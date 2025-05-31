@@ -29,6 +29,14 @@ export const deleteRequest = createAsyncThunk(
     }
 )
 
+export const updateRequest = createAsyncThunk(
+    'requests/updateRequest',
+    async ({ id, data }: { id: number, data: Partial<Pick<IRequest, 'toUser' | 'toDate'>> }) => {
+        const response = await axios.put(`${API_URL}/${id}`, data);
+        return response.data;
+    }
+);
+
 
 
 const requestSlice = createSlice({
@@ -64,6 +72,15 @@ const requestSlice = createSlice({
             .addCase(deleteRequest.rejected, (state, action) => {
                 state.error = action.payload as string || "Failed to delete request";
             })
+            .addCase(updateRequest.fulfilled, (state, action) => {
+                const index = state.requests.findIndex((r) => r.id === action.payload.id);
+                if (index !== -1) {
+                    state.requests[index] = action.payload;
+                }
+            })
+            .addCase(updateRequest.rejected, (state, action) => {
+                state.error = action.payload as string || "Failed to update request";
+            });
     }
 })
 

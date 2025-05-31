@@ -8,6 +8,7 @@ import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice';
 const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
   const dispatch = useAppDispatch();
   const allEvents = useAppSelector(state => state.event.events);
+  const username = localStorage.getItem('username');
 
   const handleDelete = async () => {
     try {
@@ -74,6 +75,11 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
     }
   };
 
+  const handleJoin = async () => {
+    // Implement your join logic here (e.g., update the request with toUser/toDate)
+    alert('Join request logic goes here!');
+  };
+
   return (
     <div className={styles.reqCard}>
       <p className={styles.reqTitle}>
@@ -84,8 +90,17 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
       <p className={styles.reqDetail}><strong>Reason:</strong> {request.reason}</p>
       
       <div className={styles.reqButtons}>
-        <button className={`${styles.btn} ${styles.approve}`} onClick={handleApprove}>Approve</button>
-        <button className={`${styles.btn} ${styles.decline}`} onClick={handleDelete}>Decline</button>
+        {username === 'Admin' ? (
+          <>
+            <button className={`${styles.btn} ${styles.approve}`} onClick={handleApprove}>Approve</button>
+            <button className={`${styles.btn} ${styles.decline}`} onClick={handleDelete}>Decline</button>
+          </>
+        ) : (
+          // Show join button only if toUser and toDate are empty and user is not guest
+          (!request.toUser && !request.toDate && username && username !== 'guest') && (
+            <button className={`${styles.btn} ${styles.join}`} onClick={handleJoin}>Join</button>
+          )
+        )}
       </div>
     </div>
   );

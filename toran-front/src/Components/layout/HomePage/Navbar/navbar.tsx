@@ -21,6 +21,8 @@ const Navbar: React.FC = () => {
     const [showSwitchShifts, setShowSwitchShifts] = useState(false);
     const dispatch = useAppDispatch();
     const requests = useAppSelector((state) => state.request.requests);
+
+
     
     useEffect(() => {
     if (storedUsername === 'Admin') {
@@ -60,6 +62,10 @@ const Navbar: React.FC = () => {
     const handleViewRequests = () => {
         navigate('/requests');
     }
+
+    const pendingRequests = requests.filter(
+        req => (!req.toUser || req.toUser === "") && (!req.toDate || req.toDate === "")
+    );
 
     
     return (
@@ -114,6 +120,9 @@ const Navbar: React.FC = () => {
                     <div className={styles.navitem} onClick={handleViewRequests}>
                         <FaListAlt size={20} />
                         <span>View Shift Requests</span>
+                        {pendingRequests.length > 0 && (
+                            <span className={styles.badge}>{requests.length}</span>
+                    )}
                     </div>
                 )}
 

@@ -11,6 +11,9 @@ const ViewReqs: React.FC = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
   const pendingReqs = useAppSelector((state) => state.request.requests);
+  const usersReqs = pendingReqs.filter(
+    req => (!req.toUser || req.toUser === "") && (!req.toDate || req.toDate === "")
+  );
 
 
 
@@ -53,12 +56,12 @@ const ViewReqs: React.FC = () => {
   return (
     <div className={styles.viewreqscontainer}>
         <div className={styles.reqListWrapper}>
-          {/* {pendingReqs.map(req => (
+          {usersReqs.map(req => (
             <ReqDetails
               key={req.id}
               request={req}
             />
-        ))} */}
+        ))}
         </div>
     </div>
   );
