@@ -6,9 +6,9 @@ make sure backend (toran-backend) is up
 Admin user:
 
 username: Admin
-password: 11wpr450is
+password: 11Wpr450is.
 
 another user:
 
 username: try
-password: 11wpr450is
+password: 11Wpr450is.
