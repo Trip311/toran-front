@@ -215,7 +215,7 @@ const notesForDay = calendarEvents
                 <div style={{ fontSize: "0.85rem", color: "black" }}>
                   {event.username}
                 </div>
-                <strong>{event.note}</strong>
+                {/* <strong>{event.note}</strong> */}
               </div>
             ),
             month: {

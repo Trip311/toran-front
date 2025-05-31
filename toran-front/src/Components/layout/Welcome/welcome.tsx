@@ -32,6 +32,9 @@ const Welcome: React.FC = () => {
                 <button datatype="btn-login" onClick={() => navigate('/login')}>Login</button>
                 <button datatype="btn-signup" onClick={() => navigate('/signup')}>Signup</button>
             </div>
+            <div className={styles.copyright}>
+                &copy; {new Date().getFullYear()} Toran. All rights reserved.
+            </div>
         </div>
     );
 };
