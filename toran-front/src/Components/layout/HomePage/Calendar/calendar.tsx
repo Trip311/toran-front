@@ -161,9 +161,10 @@ const MyCalendar: React.FC = () => {
   };
 
   // Get all notes for the current day
+const today = new Date();
 const notesForDay = calendarEvents
   .filter(ev =>
-    stripTime(ev.startDate).getTime() === stripTime(currentDate).getTime()
+    stripTime(ev.startDate).getTime() === stripTime(today).getTime()
     && ev.note && ev.username
   )
   .map(ev => ({
