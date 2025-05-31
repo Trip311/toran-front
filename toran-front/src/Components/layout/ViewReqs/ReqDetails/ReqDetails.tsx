@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ReqDetails.module.scss';
 import { ReqDetailsProps } from '../../../../interfaces/reqdetails.props';
 import { useAppDispatch, useAppSelector } from '../../HomePage/Calendar/redux/hooks';
@@ -9,6 +9,8 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
   const dispatch = useAppDispatch();
   const allEvents = useAppSelector(state => state.event.events);
   const username = localStorage.getItem('username');
+  const [showJoinForm, setShowJoinForm] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
 
   const handleDelete = async () => {
     try {
@@ -75,9 +77,12 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
     }
   };
 
-  const handleJoin = async () => {
-    // Implement your join logic here (e.g., update the request with toUser/toDate)
-    alert('Join request logic goes here!');
+  const handleJoin = () => {
+    setShowJoinForm(true);
+  };
+
+  const handleConfirmJoin = async () => {
+
   };
 
   return (
@@ -96,9 +101,40 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ request }) => {
             <button className={`${styles.btn} ${styles.decline}`} onClick={handleDelete}>Decline</button>
           </>
         ) : (
-          // Show join button only if toUser and toDate are empty and user is not guest
           (!request.toUser && !request.toDate && username && username !== 'guest') && (
-            <button className={`${styles.btn} ${styles.join}`} onClick={handleJoin}>Join</button>
+            <>
+              <button className={`${styles.btn} ${styles.join}`} onClick={handleJoin}>Join</button>
+              {showJoinForm && (
+                <form
+                  className={styles.joinForm}
+                  onSubmit={e => {
+                    e.preventDefault();
+                    handleConfirmJoin();
+                  }}
+                  style={{ marginTop: 12 }}
+                >
+                  <div>
+                    <label>
+                      Your Name:
+                      <input type="text" value={username || ''} readOnly style={{ marginLeft: 8 }} />
+                    </label>
+                  </div>
+                  <div style={{ marginTop: 8 }}>
+                    <label>
+                      Choose Date:
+                      <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={e => setSelectedDate(e.target.value)}
+                        style={{ marginLeft: 8 }}
+                        required
+                      />
+                    </label>
+                  </div>
+                  <button type="submit" className={styles.btn} style={{ marginTop: 10 }}>Confirm</button>
+                </form>
+              )}
+            </>
           )
         )}
       </div>
