@@ -8,7 +8,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChangePassword from './ChangePassword/ChangePassword';
 import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
-
+import { useAppSelector, useAppDispatch } from '../Calendar/redux/hooks';
+import { fetchRequests } from '../Calendar/redux/requestSlice';
 
 
 
@@ -18,8 +19,14 @@ const Navbar: React.FC = () => {
     const storedUsername = localStorage.getItem('username');
     const [isChangePassword, setIsChangePassword] = useState(false);
     const [showSwitchShifts, setShowSwitchShifts] = useState(false);
+    const dispatch = useAppDispatch();
+    const requests = useAppSelector((state) => state.request.requests);
     
-
+    useEffect(() => {
+    if (storedUsername === 'Admin') {
+        dispatch(fetchRequests());
+    }
+    }, [dispatch, storedUsername]);
     
 
     const [username, setUsername] = useState('guest');
@@ -97,6 +104,9 @@ const Navbar: React.FC = () => {
                     <div className={styles.navitem} onClick={handleViewRequests}>
                         <FaListAlt size={20} />
                         <span>Approve Shift Requests</span>
+                        {requests.length > 0 && (
+                            <span className={styles.badge}>{requests.length}</span>
+                    )}
                     </div>
                 )}
 

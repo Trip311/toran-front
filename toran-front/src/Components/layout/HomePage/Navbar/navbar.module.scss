@@ -89,6 +89,19 @@ $font-main: 'Inter', sans-serif;
       font-weight: 100;
     }
   }
+  
+}
+
+.badge {
+  display: inline-block;
+  background: $glass-bg;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: bold;
+  padding: 2px 8px;
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 .footer {
