@@ -130,7 +130,7 @@ const MyCalendar: React.FC = () => {
           style={{
             fontSize: "1.5rem",
             fontWeight: 600,
-            color: "#0f0f0f", // deep blue
+            color: "#0f0f0f", 
             fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
             letterSpacing: "0.5px",
             flexGrow: 1,

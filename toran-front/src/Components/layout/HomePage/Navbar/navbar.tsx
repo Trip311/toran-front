@@ -93,12 +93,20 @@ const Navbar: React.FC = () => {
                 )}
 
 
-                 {storedUsername === 'Admin' && (
+                {storedUsername === 'Admin' && (
+                    <div className={styles.navitem} onClick={handleViewRequests}>
+                        <FaListAlt size={20} />
+                        <span>Approve Shift Requests</span>
+                    </div>
+                )}
+
+                {storedUsername !== 'Admin' && storedUsername !== 'guest' && (
                     <div className={styles.navitem} onClick={handleViewRequests}>
                         <FaListAlt size={20} />
                         <span>View Shift Requests</span>
                     </div>
                 )}
+
                 <div className={styles.footer}>
                     <p>Logged in as:</p>
                     <strong>{storedUsername}</strong>

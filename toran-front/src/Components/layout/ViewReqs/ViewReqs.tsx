@@ -24,7 +24,7 @@ const ViewReqs: React.FC = () => {
     navigate('/home');
   };
 
-  if (username !== 'Admin') {
+  if (username === 'guest') {
     return (
       <div className={styles.notadmincontainer}>
         <div className={styles.notadmincard}>
@@ -35,9 +35,9 @@ const ViewReqs: React.FC = () => {
         </div>
     );
   }
-
-  return (
-    <div className={styles.viewreqscontainer}>
+  else if (username === 'Admin') {
+    return (
+      <div className={styles.viewreqscontainer}>
         <div className={styles.reqListWrapper}>
           {pendingReqs.map(req => (
             <ReqDetails
@@ -45,6 +45,20 @@ const ViewReqs: React.FC = () => {
               request={req}
             />
         ))}
+        </div>
+    </div>
+    );
+  }
+
+  return (
+    <div className={styles.viewreqscontainer}>
+        <div className={styles.reqListWrapper}>
+          {/* {pendingReqs.map(req => (
+            <ReqDetails
+              key={req.id}
+              request={req}
+            />
+        ))} */}
         </div>
     </div>
   );
