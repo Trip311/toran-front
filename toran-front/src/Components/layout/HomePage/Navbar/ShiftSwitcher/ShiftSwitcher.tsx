@@ -74,12 +74,13 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
       fromUser: currentUser,
       fromDate: userShiftDate,
       // toUser: secondUser,
-      toUser: '',
+      toUser: null,
       // toDate: secondUserShiftDate,
-      toDate: '',
+      toDate: null,
       shiftType,
       reason,
     };
+    console.log(payload);
 
     dispatch(addRequest(payload));
     onClose();

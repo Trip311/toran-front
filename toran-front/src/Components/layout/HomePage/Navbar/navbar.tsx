@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
 
     
     useEffect(() => {
-    if (storedUsername === 'Admin') {
+    if (storedUsername && storedUsername !== 'guest') {
         dispatch(fetchRequests());
     }
     }, [dispatch, storedUsername]);
