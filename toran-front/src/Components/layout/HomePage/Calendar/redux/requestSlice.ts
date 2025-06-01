@@ -70,6 +70,14 @@ export const fetchRequestsByUsernameAndStatus = createAsyncThunk(
   }
 );
 
+export const updateRequestStatus = createAsyncThunk(
+  'requests/updateRequestStatus',
+  async ({ id, status }: { id: number; status: RequestStatus }) => {
+    const response = await axios.patch(`${API_URL}/${id}/status`, { status });
+    return response.data;
+  }
+);
+
 
 
 
@@ -115,7 +123,6 @@ const requestSlice = createSlice({
             .addCase(updateRequest.rejected, (state, action) => {
                 state.error = action.payload as string || "Failed to update request";
             })
-            // ...existing cases...
             .addCase(fetchEmptyRequests.pending, (state) => {
                 state.loading = true;
             })
@@ -161,6 +168,15 @@ const requestSlice = createSlice({
             .addCase(fetchRequestsByUsernameAndStatus.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch requests by username and status";
+            })
+            .addCase(updateRequestStatus.fulfilled, (state, action) => {
+                const index = state.requests.findIndex((r) => r.id === action.payload.id);
+                if (index !== -1) {
+                    state.requests[index] = action.payload;
+                }
+            })
+            .addCase(updateRequestStatus.rejected, (state, action) => {
+                    state.error = action.error.message || "Failed to update request status";
             });
         }
 })

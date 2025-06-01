@@ -17,11 +17,11 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
 
   const [shiftType, setShiftType] = useState<ShiftType>('jira');
   const [userShiftDate, setUserShiftDate] = useState('');
-  const [secondUser, setSecondUser] = useState('');
-  const [secondUserShiftDate, setSecondUserShiftDate] = useState('');
+  // const [secondUser, setSecondUser] = useState('');
+  // const [secondUserShiftDate, setSecondUserShiftDate] = useState('');
   const [reason, setReason] = useState('');
 
-  const allUsers = useAppSelector(state => state.users.users);
+  // const allUsers = useAppSelector(state => state.users.users);
   const allEvents = useAppSelector(state => state.event.events);
 
   useEffect(() => {
@@ -43,12 +43,12 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
   // instead of calcultating it every time there's a render
 
   const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, currentUser, shiftType]);
-  const secondUserShiftDates = useMemo(() => getShiftDates(secondUser), [allEvents, secondUser, shiftType]);
+  // const secondUserShiftDates = useMemo(() => getShiftDates(secondUser), [allEvents, secondUser, shiftType]);
 
-  const availableUsers = useMemo(
-    () => allUsers.filter(u => u.username !== currentUser),
-    [allUsers, currentUser]
-  );
+  // const availableUsers = useMemo(
+  //   () => allUsers.filter(u => u.username !== currentUser),
+  //   [allUsers, currentUser]
+  // );
 
   useEffect(() => {
     if (userShiftDate && !userShiftDates.includes(userShiftDate)) {
@@ -56,16 +56,16 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
     }
   }, [userShiftDates]);
 
-  useEffect(() => {
-    if (secondUserShiftDate && !secondUserShiftDates.includes(secondUserShiftDate)) {
-      setSecondUserShiftDate('');
-    }
-  }, [secondUserShiftDates]);
+  // useEffect(() => {
+  //   if (secondUserShiftDate && !secondUserShiftDates.includes(secondUserShiftDate)) {
+  //     setSecondUserShiftDate('');
+  //   }
+  // }, [secondUserShiftDates]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!shiftType || !userShiftDate || !secondUser || !secondUserShiftDate || !reason.trim()) {
+    if (!shiftType || !userShiftDate || !reason.trim()) {
       alert('Please fill all the fields.');
       return;
     }
@@ -73,12 +73,11 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
     const payload: IRequest = {
       fromUser: currentUser,
       fromDate: userShiftDate,
-      // toUser: secondUser,
       toUser: null,
-      // toDate: secondUserShiftDate,
       toDate: null,
       shiftType,
       reason,
+      status: 'pending'
     };
     console.log(payload);
 
@@ -113,7 +112,7 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
           </select>
         </div>
 
-        <div className={styles.formGroup}>
+        {/* <div className={styles.formGroup}>
           <label>Select Teammate:</label>
           <select value={secondUser} onChange={e => setSecondUser(e.target.value)}>
             <option value="">Select user</option>
@@ -133,7 +132,7 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
               ))}
             </select>
           </div>
-        )}
+        )} */}
 
         <div className={styles.formGroup}>
           <label>Reason for Switching:</label>

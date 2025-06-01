@@ -10,6 +10,7 @@ import ChangePassword from './ChangePassword/ChangePassword';
 import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
 import { useAppSelector, useAppDispatch } from '../Calendar/redux/hooks';
 import { fetchRequests, fetchEmptyRequests } from '../Calendar/redux/requestSlice';
+import { VscRequestChanges } from "react-icons/vsc";
 
 
 
@@ -67,15 +68,14 @@ const Navbar: React.FC = () => {
         navigate('/requests');
     }
 
-    const fullReqs = requests.filter(
-        req => !!req.toUser && !!req.toDate
-    );
+    const handleViewMyRequests = () => {
+        navigate('/my-requests');
+    }
 
-    const pendingRequests = requests.filter(
-        req => (!req.toUser || req.toUser === "") && (!req.toDate || req.toDate === "")
-    );
+    const fullReqs = requests.filter(req => req.status === 'waitingforadmin');
+    const pendingRequests = requests.filter(req => req.status === 'pending');
+    const myRequests = requests.filter(req => req.status === 'waitingforuser');
 
-    
     return (
         <div className={styles.sidenavbar}>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover theme="colored" />
@@ -124,13 +124,23 @@ const Navbar: React.FC = () => {
                     </div>
                 )}
 
-                {storedUsername !== 'Admin' && storedUsername !== 'guest' && (
+                {storedUsername !== 'guest' && (
                     <div className={styles.navitem} onClick={handleViewRequests}>
                         <FaListAlt size={20} />
                         <span>View Shift Requests</span>
                         {pendingRequests.length > 0 && (
                             <span className={styles.badge}>{requests.length}</span>
                     )}
+                    </div>
+                )}
+                
+                {storedUsername !== 'guest' && (
+                    <div className={styles.navitem} onClick={handleViewMyRequests}>
+                        <VscRequestChanges size={20} />
+                        <span>My Requests</span>
+                        {myRequests.length > 0 && (
+                            <span className={styles.badge}>{myRequests.length}</span>
+                        )}
                     </div>
                 )}
 
