@@ -6,6 +6,7 @@ const Login = lazy(() => import('./Components/layout/Login/login'));
 const Signup = lazy(() => import('./Components/layout/Signup/signup'));
 const Home = lazy(() => import('./Components/layout/HomePage/homepage'));
 const ViewReqs = lazy(() => import('./Components/layout/ViewReqs/ViewReqs'));
+const MyRequests = lazy(() => import('./Components/layout/HomePage/Navbar/MyRequests/MyRequests'));
 
 
 const AppRounter = () => {
@@ -17,6 +18,7 @@ const AppRounter = () => {
                 <Route path='/signup' element={<Signup/>}/>
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/requests' element={<ViewReqs/>}/>
+                <Route path='/my-requests' element={<MyRequests/>}/>
             </Routes>
         </Suspense>
     )

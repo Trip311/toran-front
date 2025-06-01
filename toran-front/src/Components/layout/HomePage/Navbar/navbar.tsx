@@ -64,9 +64,9 @@ const Navbar: React.FC = () => {
         }
     }
 
-    const handleViewRequests = () => {
-        navigate('/requests');
-    }
+    const handleViewRequests = (mode: 'approve' | 'view') => {
+        navigate('/requests', { state: { mode } });
+    };
 
     const handleViewMyRequests = () => {
         navigate('/my-requests');
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
 
     const fullReqs = requests.filter(req => req.status === 'waitingforadmin');
     const pendingRequests = requests.filter(req => req.status === 'pending');
-    const myRequests = requests.filter(req => req.status === 'waitingforuser');
+    const myRequests = requests.filter(req => req.status === 'waitingforuser' && req.fromUser === storedUsername);
 
     return (
         <div className={styles.sidenavbar}>
@@ -115,7 +115,7 @@ const Navbar: React.FC = () => {
 
 
                 {storedUsername === 'Admin' && (
-                    <div className={styles.navitem} onClick={handleViewRequests}>
+                    <div className={styles.navitem} onClick={() => handleViewRequests('approve')}>
                         <FaListAlt size={20} />
                         <span>Approve Shift Requests</span>
                         {fullReqs.length > 0 && (
@@ -125,11 +125,11 @@ const Navbar: React.FC = () => {
                 )}
 
                 {storedUsername !== 'guest' && (
-                    <div className={styles.navitem} onClick={handleViewRequests}>
+                    <div className={styles.navitem} onClick={() => handleViewRequests('view')}>
                         <FaListAlt size={20} />
                         <span>View Shift Requests</span>
                         {pendingRequests.length > 0 && (
-                            <span className={styles.badge}>{requests.length}</span>
+                            <span className={styles.badge}>{pendingRequests.length}</span>
                     )}
                     </div>
                 )}

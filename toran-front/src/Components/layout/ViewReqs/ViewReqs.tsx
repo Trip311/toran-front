@@ -1,29 +1,31 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from './ViewReqs.module.scss'; // Optional: For custom styling
 import { useAppDispatch, useAppSelector } from '../../layout/HomePage/Calendar/redux/hooks';
-import { fetchRequests, fetchEmptyRequests } from "../HomePage/Calendar/redux/requestSlice";
-
+import { fetchRequestsByStatus } from "../HomePage/Calendar/redux/requestSlice";
 import ReqDetails from './ReqDetails/ReqDetails'
+import { IRequest } from '../../../interfaces/request.interface';
 
 const ViewReqs: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
   const pendingReqs = useAppSelector((state) => state.request.requests);
-  const usersReqs = pendingReqs.filter(
-    req => (!req.toUser || req.toUser === '') && (!req.toDate || req.toDate === '')
-  );
+  // const usersReqs = pendingReqs.filter(
+  //   req => (!req.toUser || req.toUser === '') && (!req.toDate || req.toDate === '')
+  // );
+  const location = useLocation();
+  const mode = location.state?.mode || 'view';
 
 
 
   useEffect(() => {
-    if (username !== 'Admin' && username !== 'guest') {
-      dispatch(fetchEmptyRequests());
-    } else if (username === 'Admin') {
-      dispatch(fetchRequests());
-    }
-  }, [dispatch]);
+  if (username === 'Admin' && mode === 'approve') {
+    dispatch(fetchRequestsByStatus('waitingforadmin'));
+  } else {
+    dispatch(fetchRequestsByStatus('pending'));
+  }
+}, [dispatch, username, mode]);
 
   
 
@@ -42,33 +44,24 @@ const ViewReqs: React.FC = () => {
         </div>
     );
   }
-  else if (username === 'Admin') {
-    const fullReqs = pendingReqs.filter(
-    req => !!req.toUser && !!req.toDate
-    );
-    return (
-      <div className={styles.viewreqscontainer}>
-        <div className={styles.reqListWrapper}>
-          {fullReqs.map(req => (
-            <ReqDetails
-              currentUser={username ?? ''}
-              key={req.id}
-              request={req}
-            />
-        ))}
-        </div>
-    </div>
-    );
+  
+    // Filter requests based on role and mode
+  let filteredReqs: IRequest[] = [];
+  if (username === 'Admin' && mode === 'approve') {
+    filteredReqs = pendingReqs.filter(req => req.status === 'waitingforadmin');
+  } else {
+    filteredReqs = pendingReqs.filter(req => req.status === 'pending');
   }
 
   return (
     <div className={styles.viewreqscontainer}>
         <div className={styles.reqListWrapper}>
-          {usersReqs.map(req => (
+          {filteredReqs.map(req => (
             <ReqDetails
               currentUser={username ?? ''}
               key={req.id}
               request={req}
+              mode={mode}
             />
         ))}
         </div>
