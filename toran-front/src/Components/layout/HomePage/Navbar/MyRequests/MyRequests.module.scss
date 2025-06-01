@@ -1,0 +1,77 @@
+
+
+
+
+.myRequestsContainer {
+  max-width: 700px;
+  margin: 32px auto;
+  padding: 24px;
+  background: #f9f9fb;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 32px;
+  color: #2d3a4a;
+  font-weight: 700;
+}
+
+.reqCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 24px;
+  padding: 20px 28px;
+  transition: box-shadow 0.2s;
+  border: 1px solid #e3e7ee;
+  &:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+  }
+}
+
+.reqTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #1a2233;
+}
+
+.reqDetail {
+  margin-bottom: 6px;
+  color: #3b465c;
+  font-size: 0.98rem;
+}
+
+.reqButtons {
+  margin-top: 18px;
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  padding: 8px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.approve {
+  background: #4caf50;
+  color: #fff;
+  &:hover {
+    background: #388e3c;
+  }
+}
+
+.decline {
+  background: #e53935;
+  color: #fff;
+  &:hover {
+    background: #b71c1c;
+  }
+}

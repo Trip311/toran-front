@@ -3,7 +3,7 @@ import styles from './ReqDetails.module.scss';
 import { ReqDetailsProps } from '../../../../interfaces/reqdetails.props';
 import { useAppDispatch, useAppSelector } from '../../HomePage/Calendar/redux/hooks';
 import { deleteRequest, updateRequestStatus, updateRequest } from '../../HomePage/Calendar/redux/requestSlice';
-// import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice';
+import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice';
 import { fetchEvents } from '../../HomePage/Calendar/redux/eventSlice';
 
 
@@ -44,58 +44,58 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser, request, mode }) =
 
   // function to handle approving a shift switch request
   const handleApprove = async () => {
-    // if (!request?.fromUser || !request?.toUser || !request.fromDate || !request.toDate || !request.shiftType || !request.id) {
-    //   alert("Incomplete request data.");
-    //   return;
-    // }
+    if (!request?.fromUser || !request?.toUser || !request.fromDate || !request.toDate || !request.shiftType || !request.id) {
+      alert("Incomplete request data.");
+      return;
+    }
 
-    // try {
-    //   const fromEvent = allEvents.find(ev =>
-    //     ev.username === request.fromUser &&
-    //     ev.type === request.shiftType &&
-    //     ev.endDate.split('T')[0] === request.fromDate
-    //   );
+    try {
+      const fromEvent = allEvents.find(ev =>
+        ev.username === request.fromUser &&
+        ev.type === request.shiftType &&
+        ev.endDate.split('T')[0] === request.fromDate
+      );
 
-    //   const toEvent = allEvents.find(ev =>
-    //     ev.username === request.toUser &&
-    //     ev.type === request.shiftType &&
-    //     ev.endDate.split('T')[0] === request.toDate
-    //   );
+      const toEvent = allEvents.find(ev =>
+        ev.username === request.toUser &&
+        ev.type === request.shiftType &&
+        ev.endDate.split('T')[0] === request.toDate
+      );
 
-    //   if (!fromEvent || !toEvent || !fromEvent.id || !toEvent.id) {
-    //     alert('Could not find both events for swap.');
-    //     return;
-    //   }
+      if (!fromEvent || !toEvent || !fromEvent.id || !toEvent.id) {
+        alert('Could not find both events for swap.');
+        return;
+      }
 
-    //   // Switch events
-    //   await dispatch(updateEvent({
-    //     id: fromEvent.id,
-    //     event: {
-    //       username: request.toUser,
-    //       note: request.toUser,
-    //       type: request.shiftType,
-    //       startDate: fromEvent.startDate,
-    //       endDate: fromEvent.endDate,
-    //     }
-    //   })).unwrap();
+      // Switch events
+      await dispatch(updateEvent({
+        id: fromEvent.id,
+        event: {
+          username: request.toUser,
+          note: request.toUser,
+          type: request.shiftType,
+          startDate: fromEvent.startDate,
+          endDate: fromEvent.endDate,
+        }
+      })).unwrap();
 
-    //   await dispatch(updateEvent({
-    //     id: toEvent.id,
-    //     event: {
-    //       username: request.fromUser,
-    //       note: request.fromUser,
-    //       type: request.shiftType,
-    //       startDate: toEvent.startDate,
-    //       endDate: toEvent.endDate,
-    //     }
-    //   })).unwrap();
+      await dispatch(updateEvent({
+        id: toEvent.id,
+        event: {
+          username: request.fromUser,
+          note: request.fromUser,
+          type: request.shiftType,
+          startDate: toEvent.startDate,
+          endDate: toEvent.endDate,
+        }
+      })).unwrap();
 
-    //   await dispatch(deleteRequest(request.id)).unwrap();
+      await dispatch(deleteRequest(request.id)).unwrap();
 
-    //   alert('Shift switch approved successfully.');
-    // } catch (error) {
-    //   alert('Failed to approve request: ' + (error as Error).message);
-    // }
+      alert('Shift switch approved successfully.');
+    } catch (error) {
+      alert('Failed to approve request: ' + (error as Error).message);
+    }
   };
 
   const handleMenuJoin = () => {

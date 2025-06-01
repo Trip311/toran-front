@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './ChangePassword.module.scss';
 import { FaSave } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
 
 interface ChangePasswordProps {
   username: string | null;
@@ -15,10 +13,18 @@ interface ChangePasswordProps {
 const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
+    const passwordChecks = {
+        hasMinLength: newPassword.length >= 6,
+        hasUppercase: /[A-Z]/.test(newPassword),
+        hasLowercase: /[a-z]/.test(newPassword),
+        hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
+    };
 
     const handleSave = async () => {
-        if (newPassword.length < 6) {
-            toast.error("Password must be at least 6 characters.");
+        if (!Object.values(passwordChecks).every(Boolean)) {
+            toast.error("Password does not meet all requirements.");
             return;
         }
 
@@ -32,9 +38,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) =>
                 username,
                 newPassword
             });
-            console.log(response.data);
             toast.success(response.data.message || "Password changed successfully!");
-            onClose(); // Close the modal
+            onClose();
         } catch (err) {
             toast.error("Error changing password");
         }
@@ -49,8 +54,29 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) =>
                     placeholder="New password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
+                    onFocus={() => setIsPasswordFocused(true)}
+                    onBlur={() => setIsPasswordFocused(false)}
                     required
                 />
+                {isPasswordFocused && (
+                    <div className={styles.passwordValidator}>
+                        <p>Password must include:</p>
+                        <ul>
+                            <li>
+                                {passwordChecks.hasMinLength ? "✅" : "❌"} Minimum 6 characters
+                            </li>
+                            <li>
+                                {passwordChecks.hasLowercase ? "✅" : "❌"} One lowercase letter
+                            </li>
+                            <li>
+                                {passwordChecks.hasUppercase ? "✅" : "❌"} One uppercase letter
+                            </li>
+                            <li>
+                                {passwordChecks.hasSpecialChar ? "✅" : "❌"} One special character
+                            </li>
+                        </ul>
+                    </div>
+                )}
                 <input
                     type="password"
                     placeholder="Confirm new password"
@@ -61,7 +87,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) =>
                 <button className={styles.savebutton} onClick={handleSave}>
                     <FaSave /> Save
                 </button>
-                <button className={styles.closebutton} onClick={onClose}>X</button>
+                <button className={styles.closebutton} onClick={onClose} onMouseDown={e => e.preventDefault()}>X</button>
             </div>
         </div>,
         document.body

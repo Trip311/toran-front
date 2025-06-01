@@ -51,6 +51,7 @@ const ViewReqs: React.FC = () => {
     filteredReqs = pendingReqs.filter(req => req.status === 'waitingforadmin');
   } else {
     filteredReqs = pendingReqs.filter(req => req.status === 'pending');
+    console.log('Filtered Requests:', filteredReqs);
   }
 
   return (
