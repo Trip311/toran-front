@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { IRequest } from '../../../../../interfaces/request.interface';
 import axios from "axios";
+import { RequestStatus } from '../../../../../interfaces/request.interface';
 
 
 const API_URL = 'http://localhost:5000/api/requests'
@@ -44,6 +45,31 @@ export const fetchEmptyRequests = createAsyncThunk(
         return response.data;
     }
 );
+
+export const fetchRequestsByStatus = createAsyncThunk(
+  'requests/fetchRequestsByStatus',
+  async (status: RequestStatus) => {
+    const response = await axios.get(`${API_URL}/status/${status}`);
+    return response.data;
+  }
+);
+
+export const fetchRequestsByUsername = createAsyncThunk(
+  'requests/fetchRequestsByUsername',
+  async (username: string) => {
+    const response = await axios.get(`${API_URL}/user/${username}`);
+    return response.data;
+  }
+);
+
+export const fetchRequestsByUsernameAndStatus = createAsyncThunk(
+  'requests/fetchRequestsByUsernameAndStatus',
+  async ({ username, status }: { username: string; status: RequestStatus }) => {
+    const response = await axios.get(`${API_URL}/user/${username}/status/${status}`);
+    return response.data;
+  }
+);
+
 
 
 
@@ -100,6 +126,41 @@ const requestSlice = createSlice({
             .addCase(fetchEmptyRequests.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch empty requests";
+            })
+            .addCase(fetchRequestsByStatus.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchRequestsByStatus.fulfilled, (state, action) => {
+                state.requests = action.payload;
+                state.loading = false;
+            })
+            .addCase(fetchRequestsByStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to fetch requests by status";
+            })
+
+            .addCase(fetchRequestsByUsername.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchRequestsByUsername.fulfilled, (state, action) => {
+                state.requests = action.payload;
+                state.loading = false;
+            })
+            .addCase(fetchRequestsByUsername.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to fetch requests by username";
+            })
+
+            .addCase(fetchRequestsByUsernameAndStatus.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchRequestsByUsernameAndStatus.fulfilled, (state, action) => {
+                state.requests = action.payload;
+                state.loading = false;
+            })
+            .addCase(fetchRequestsByUsernameAndStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to fetch requests by username and status";
             });
         }
 })
