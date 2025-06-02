@@ -9,7 +9,7 @@ RUN npm ci
 
 COPY . .
 
-# ⬅️ ודא שבפקודת build שלך יש גם tsc (כמו "build": "tsc -b && vite build")
+# "build": "tsc -b && vite build"
 RUN npm run build
 
 # 2. Production stage
