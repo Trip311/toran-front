@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styles from './ReqDetails.module.scss';
-import { ReqDetailsProps } from '../../../../interfaces/reqdetails.props';
-import { useAppDispatch, useAppSelector } from '../../HomePage/Calendar/redux/hooks';
-import { deleteRequest, updateRequestStatus, updateRequest } from '../../HomePage/Calendar/redux/requestSlice';
-import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice';
-import { fetchEvents } from '../../HomePage/Calendar/redux/eventSlice';
+import { ReqDetailsProps } from '../../../../interfaces/reqdetails.props.js';
+import { useAppDispatch, useAppSelector } from '../../HomePage/Calendar/redux/hooks.js';
+import { deleteRequest, updateRequestStatus, updateRequest } from '../../HomePage/Calendar/redux/requestSlice.js';
+import { updateEvent } from '../../HomePage/Calendar/redux/eventSlice.js';
+import { fetchEvents } from '../../HomePage/Calendar/redux/eventSlice.js';
 
 
 const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser, request, mode }) => {
@@ -27,7 +27,10 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser, request, mode }) =
         ev.type === request.shiftType &&
         new Date(ev.endDate) >= today
       )
-      .map(ev => ev.endDate.split('T')[0]);
+      .map(ev => {
+          const dateStr = ev.endDate instanceof Date ? ev.endDate.toISOString() : ev.endDate;
+          return dateStr.split('T')[0];
+      });
   };
 
   const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, currentUser, request.shiftType]);
@@ -53,13 +56,13 @@ const ReqDetails: React.FC<ReqDetailsProps> = ({ currentUser, request, mode }) =
       const fromEvent = allEvents.find(ev =>
         ev.username === request.fromUser &&
         ev.type === request.shiftType &&
-        ev.endDate.split('T')[0] === request.fromDate
+        (typeof ev.endDate === 'string' ? ev.endDate : ev.endDate.toISOString()).split('T')[0] === request.fromDate
       );
 
       const toEvent = allEvents.find(ev =>
         ev.username === request.toUser &&
         ev.type === request.shiftType &&
-        ev.endDate.split('T')[0] === request.toDate
+        (typeof ev.endDate === 'string' ? ev.endDate : ev.endDate.toISOString()).split('T')[0] === request.toDate
       );
 
       if (!fromEvent || !toEvent || !fromEvent.id || !toEvent.id) {

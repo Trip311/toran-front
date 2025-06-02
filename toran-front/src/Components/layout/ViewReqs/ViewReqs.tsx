@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from './ViewReqs.module.scss'; // Optional: For custom styling
-import { useAppDispatch, useAppSelector } from '../../layout/HomePage/Calendar/redux/hooks';
-import { fetchRequestsByStatus } from "../HomePage/Calendar/redux/requestSlice";
-import ReqDetails from './ReqDetails/ReqDetails'
-import { IRequest } from '../../../interfaces/request.interface';
+import { useAppDispatch, useAppSelector } from '../../layout/HomePage/Calendar/redux/hooks.js';
+import { fetchRequestsByStatus } from "../HomePage/Calendar/redux/requestSlice.js";
+import ReqDetails from './ReqDetails/ReqDetails.js'
+import { IRequest } from '../../../interfaces/request.interface.js';
 
 const ViewReqs: React.FC = () => {
   const dispatch = useAppDispatch();

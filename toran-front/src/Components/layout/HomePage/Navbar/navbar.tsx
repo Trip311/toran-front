@@ -6,10 +6,10 @@ import styles from './navbar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ChangePassword from './ChangePassword/ChangePassword';
-import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher'; // adjust the path if needed
-import { useAppSelector, useAppDispatch } from '../Calendar/redux/hooks';
-import { fetchRequests, fetchEmptyRequests } from '../Calendar/redux/requestSlice';
+import ChangePassword from './ChangePassword/ChangePassword.js';
+import ShiftSwitcher from './ShiftSwitcher/ShiftSwitcher.js'; // adjust the path if needed
+import { useAppSelector, useAppDispatch } from '../Calendar/redux/hooks.js';
+import { fetchRequests, fetchEmptyRequests } from '../Calendar/redux/requestSlice.js';
 import { VscRequestChanges } from "react-icons/vsc";
 
 

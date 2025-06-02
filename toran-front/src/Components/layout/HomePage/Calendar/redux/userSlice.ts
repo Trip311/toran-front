@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import type { IUser } from '../../../../../interfaces/user.interface';
+import type { IUser } from '../../../../../interfaces/user.interface.js';
 
 const API_URL = 'http://localhost:5000/api/auth';
 

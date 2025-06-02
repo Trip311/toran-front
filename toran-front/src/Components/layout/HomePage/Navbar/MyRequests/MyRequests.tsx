@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './MyRequests.module.scss';
-import { useAppSelector, useAppDispatch } from '../../Calendar/redux/hooks';
-import { updateRequestStatus, updateRequest } from '../../Calendar/redux/requestSlice';
+import { useAppSelector, useAppDispatch } from '../../Calendar/redux/hooks.js';
+import { updateRequestStatus, updateRequest } from '../../Calendar/redux/requestSlice.js';
 
 const MyRequests: React.FC = () => {
     const dispatch = useAppDispatch();

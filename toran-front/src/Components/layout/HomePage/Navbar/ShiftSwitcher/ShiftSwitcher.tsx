@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './ShiftSwitcher.module.scss';
-import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks';
-import { fetchEvents } from '../../Calendar/redux/eventSlice';
-import { fetchUsers } from '../../Calendar/redux/userSlice';
-import { addRequest } from '../../Calendar/redux/requestSlice';
-import { ShiftSwitcherProps } from '../../../../../interfaces/shiftswitch.props';
-import { IRequest } from '../../../../../interfaces/request.interface';
+import { useAppDispatch, useAppSelector } from '../../Calendar/redux/hooks.js';
+import { fetchEvents } from '../../Calendar/redux/eventSlice.js';
+import { fetchUsers } from '../../Calendar/redux/userSlice.js';
+import { addRequest } from '../../Calendar/redux/requestSlice.js';
+import { ShiftSwitcherProps } from '../../../../../interfaces/shiftswitch.props.js';
+import { IRequest } from '../../../../../interfaces/request.interface.js';
 import ReactDOM from 'react-dom';
 
 type ShiftType = 'jira' | 'kitchen';
@@ -17,11 +17,8 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
 
   const [shiftType, setShiftType] = useState<ShiftType>('jira');
   const [userShiftDate, setUserShiftDate] = useState('');
-  // const [secondUser, setSecondUser] = useState('');
-  // const [secondUserShiftDate, setSecondUserShiftDate] = useState('');
   const [reason, setReason] = useState('');
 
-  // const allUsers = useAppSelector(state => state.users.users);
   const allEvents = useAppSelector(state => state.event.events);
 
   useEffect(() => {
@@ -37,30 +34,24 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
         ev.type === shiftType &&
         new Date(ev.endDate) >= today
       )
-      .map(ev => ev.endDate.split('T')[0]);
+      .map(ev => {
+        const dateStr = typeof ev.endDate === 'string'
+          ? ev.endDate
+          : (ev.endDate instanceof Date ? ev.endDate.toISOString() : '');
+        return dateStr.split('T')[0];
+      });
   };
 
   // instead of calcultating it every time there's a render
 
   const userShiftDates = useMemo(() => getShiftDates(currentUser), [allEvents, currentUser, shiftType]);
-  // const secondUserShiftDates = useMemo(() => getShiftDates(secondUser), [allEvents, secondUser, shiftType]);
 
-  // const availableUsers = useMemo(
-  //   () => allUsers.filter(u => u.username !== currentUser),
-  //   [allUsers, currentUser]
-  // );
 
   useEffect(() => {
     if (userShiftDate && !userShiftDates.includes(userShiftDate)) {
       setUserShiftDate('');
     }
   }, [userShiftDates]);
-
-  // useEffect(() => {
-  //   if (secondUserShiftDate && !secondUserShiftDates.includes(secondUserShiftDate)) {
-  //     setSecondUserShiftDate('');
-  //   }
-  // }, [secondUserShiftDates]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,28 +102,6 @@ const ShiftSwitcher: React.FC<ShiftSwitcherProps> = ({ currentUser, onClose }) =
             ))}
           </select>
         </div>
-
-        {/* <div className={styles.formGroup}>
-          <label>Select Teammate:</label>
-          <select value={secondUser} onChange={e => setSecondUser(e.target.value)}>
-            <option value="">Select user</option>
-            {availableUsers.map(user => (
-              <option key={user.username} value={user.username}>{user.username}</option>
-            ))}
-          </select>
-        </div>
-
-        {secondUser && (
-          <div className={styles.formGroup}>
-            <label>{secondUser}'s Shift Date:</label>
-            <select value={secondUserShiftDate} onChange={e => setSecondUserShiftDate(e.target.value)}>
-              <option value="">Select shift date</option>
-              {secondUserShiftDates.map(date => (
-                <option key={date} value={date}>{date}</option>
-              ))}
-            </select>
-          </div>
-        )} */}
 
         <div className={styles.formGroup}>
           <label>Reason for Switching:</label>

@@ -1,6 +1,6 @@
 import styles from './homepage.module.scss';
-import Navbar from './Navbar/navbar';
-import MyCalendar from './Calendar/calendar';
+import Navbar from './Navbar/navbar.js';
+import MyCalendar from './Calendar/calendar.js';
 import React from 'react';
 
 

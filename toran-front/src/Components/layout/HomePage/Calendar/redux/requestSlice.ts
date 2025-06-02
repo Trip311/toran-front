@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { IRequest } from '../../../../../interfaces/request.interface';
+import { IRequest } from '../../../../../interfaces/request.interface.js';
 import axios from "axios";
-import { RequestStatus } from '../../../../../interfaces/request.interface';
+import { RequestStatus } from '../../../../../interfaces/request.interface.js';
 
 
 const API_URL = 'http://localhost:5000/api/requests'

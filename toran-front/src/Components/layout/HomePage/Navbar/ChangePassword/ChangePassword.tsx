@@ -4,7 +4,7 @@ import styles from './ChangePassword.module.scss';
 import { FaSave } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { ChangePasswordProps } from '../../../../../interfaces/changepassword.props';
+import { ChangePasswordProps } from '../../../../../interfaces/changepassword.props.js';
 
 
 const ChangePassword: React.FC<ChangePasswordProps> = ({ username, onClose }) => {

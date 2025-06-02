@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { IEvent } from "../../../../../interfaces/event.interface";
+import type { IEvent } from "../../../../../interfaces/event.interface.js";
 
 const API_URL = 'http://localhost:5000/api/events'
 

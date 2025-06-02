@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { useAppDispatch } from '../redux/hooks';
-import { addEvent, updateEvent, deleteEvent } from '../redux/eventSlice';
-import type { IEvent } from '../../../../../interfaces/event.interface';
+import { useAppDispatch } from '../redux/hooks.js';
+import { addEvent, updateEvent, deleteEvent } from '../redux/eventSlice.js';
+import type { IEvent } from '../../../../../interfaces/event.interface.js';
 import './eventFormModal.scss';
 
 interface Props {
