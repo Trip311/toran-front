@@ -42,3 +42,4 @@ Add to Join (Shift Pickup Functionality):
 The shift pickup request will be sent directly to the admin for approval.
 
 Once approved, the name of the user who joined will replace the proposed date in the original request.
+* add middleware in backend of hashing password (in general imporve security)
