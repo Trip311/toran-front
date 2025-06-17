@@ -53,8 +53,10 @@ const Login: React.FC = () => {
             toast.success('Login successful!');
             localStorage.setItem('username', username);
             navigate('/home');
-        } catch (error: unknown) {
-            toast.error('Login failed');
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.error || 'Login failed From Unknown Error';
+            toast.error(errorMessage);
+            // toast.error('Login failed');
         }
     };
 
